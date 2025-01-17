@@ -9,13 +9,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
     private final UserRepository userRepository;
+    private final LoginHistoryServiceImpl loginHistoryService;
 
-    public UserDetailsService(UserRepository userRepository) {
+    public UserDetailsService(UserRepository userRepository, LoginHistoryServiceImpl loginHistoryService) {
         this.userRepository = userRepository;
+        this.loginHistoryService = loginHistoryService;
     }
 
     @Override
@@ -23,8 +26,11 @@ public class UserDetailsService implements org.springframework.security.core.use
 
         return userRepository
                 .findByUsername(username)
-                .map(UserDetailsService::map)
-                .orElseThrow(() -> new UsernameNotFoundException("User with username" + username + " not found"));
+                .map(user -> {
+                    loginHistoryService.logLogin(user);
+                    return map(user);
+                })
+                .orElseThrow(() -> new UsernameNotFoundException("User with username " + username + " not found"));
 
     }
 
