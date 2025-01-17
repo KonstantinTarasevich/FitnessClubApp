@@ -5,20 +5,21 @@ import my.fitnessapp.model.entity.UserEntity;
 import my.fitnessapp.model.entity.UserRoleEntity;
 import my.fitnessapp.model.enums.RolesEnum;
 import my.fitnessapp.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
     private final UserRepository userRepository;
-    private final LoginHistoryServiceImpl loginHistoryService;
 
-    public UserDetailsService(UserRepository userRepository, LoginHistoryServiceImpl loginHistoryService) {
+    @Autowired
+    private  LoginHistoryServiceImpl loginHistoryService;
+
+    public UserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.loginHistoryService = loginHistoryService;
     }
 
     @Override
