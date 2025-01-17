@@ -1,17 +1,19 @@
 package my.fitnessapp.contoller;
 
 import jakarta.validation.Valid;
+import my.fitnessapp.model.dto.LoginHistoryDTO;
 import my.fitnessapp.model.dto.UserRegisterDTO;
+import my.fitnessapp.service.LoginHistoryService;
 import my.fitnessapp.service.impl.AdminServiceImpl;
+import my.fitnessapp.service.impl.LoginHistoryServiceImpl;
 import my.fitnessapp.service.impl.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin-panel")
@@ -19,10 +21,12 @@ public class AdminController {
 
     private final AdminServiceImpl adminService;
     private final UserServiceImpl userService;
+    private final LoginHistoryServiceImpl loginHistoryService;
 
-    public AdminController(AdminServiceImpl adminService, UserServiceImpl userService) {
+    public AdminController(AdminServiceImpl adminService, UserServiceImpl userService, LoginHistoryServiceImpl loginHistoryService) {
         this.adminService = adminService;
         this.userService = userService;
+        this.loginHistoryService = loginHistoryService;
     }
 
     @ModelAttribute("registerData")
@@ -69,5 +73,10 @@ public class AdminController {
         }
 
         return "redirect:/admin-panel";
+    }
+
+    @GetMapping("/{userId}/login-history")
+    public List<LoginHistoryDTO> getLoginHistory(@PathVariable Long userId) {
+        return loginHistoryService.getLoginHistoryByUserId(userId);
     }
 }
