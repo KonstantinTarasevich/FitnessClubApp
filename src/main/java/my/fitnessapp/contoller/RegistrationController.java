@@ -8,11 +8,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/users")
 public class RegistrationController {
 
     private final UserServiceImpl userService;
@@ -40,22 +38,22 @@ public class RegistrationController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("registerData", data);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
-            return "redirect:/users/register";
+            return "redirect:/register";
         }
 
         if (!data.getPassword().equals(data.getConfirmPassword())) {
             redirectAttributes.addFlashAttribute("registerData", data);
             redirectAttributes.addFlashAttribute("passwordMismatchError", "Passwords do not match.");
-            return "redirect:/users/register";
+            return "redirect:/register";
         }
 
         boolean success = userService.register(data);
         if (!success) {
             redirectAttributes.addFlashAttribute("registerData", data);
             redirectAttributes.addFlashAttribute("usernameExistsError", "Username already exists.");
-            return "redirect:/users/register";
+            return "redirect:/register";
         }
 
-        return "redirect:/users/login";
+        return "redirect:/login";
     }
 }

@@ -11,13 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @GetMapping("/")
-    public String home(@AuthenticationPrincipal UserData userData, Model model) {
-        if (userData != null) {
-            model.addAttribute("welcomeMessage", userData.getFullName());
-        }
-        else{
-            model.addAttribute("welcomeMessage", "Anonymous");
-        }
+    public String home() {
 
         return "index";
     }

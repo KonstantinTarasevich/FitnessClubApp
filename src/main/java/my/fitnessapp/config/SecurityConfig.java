@@ -21,17 +21,17 @@ public class SecurityConfig {
                         authorizeRequests ->
                                 authorizeRequests
                                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                        .requestMatchers("/", "/users/login", "/users/register").permitAll()
-                                        .requestMatchers("/admin-panel").hasRole("ADMIN")
+                                        .requestMatchers("/", "/login", "/register").permitAll()
+                                        .requestMatchers("/admin-panel", "/admin-page").hasRole("ADMIN")
                                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
                         formLogin
-                                .loginPage("/users/login")
+                                .loginPage("/login")
                                 .usernameParameter("username")
                                 .passwordParameter("password")
                                 .defaultSuccessUrl("/")
-                                .failureForwardUrl("/users/login-error")
+                                .failureForwardUrl("/login-error")
                 )
                 .logout(
                         logout ->

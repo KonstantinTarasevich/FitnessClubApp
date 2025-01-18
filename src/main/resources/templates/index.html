@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitLife | Home</title>
+    <link rel="stylesheet" href="/static/styles/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .hero {
+            background: url('https://via.placeholder.com/1920x500') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+        .workout-card {
+            transition: transform 0.2s;
+        }
+        .workout-card:hover {
+            transform: scale(1.05);
+        }
+        footer {
+            background: #343a40;
+            color: white;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <div class="wrap">
+                <a class="gradient-text" href="#">FitLife</a>
+             </div>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#workouts">Workouts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="register">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="schedule.html">Schedule</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="site-cover">
+    <section class="hero">
+    <div id="site-cover">
+        <h1 style="color: rgb(194, 160, 37); ">Welcome to FitLife</h1>
+        <h5>Think about your future. Think about you.</h5>
+        <a href="#workouts" class="btn btn-primary btn-lg test" >Explore Workouts</a>
+    </div>
+    </section>
+    </div>
+       
+ 
+    
+
+    <!-- Workout Categories -->
+    <section id="workouts" class="py-5">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2>Workout Categories</h2>
+                <p>Choose a category that suits your fitness goals.</p>
+            </div>
+            
+            <!-- First Row -->
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card workout-card">
+                        <img src="/images/abs.jpg" class="card-img-top" alt="Cardio">
+                        <div class="card-body">
+                            <h5 class="card-title">Ab Workout</h5>
+                            <p class="card-text">Get the abs that you have always dreamed of with these core-focused exercises.</p>
+                            <a href="#" class="btn btn-outline-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card workout-card">
+                        <img src="/images/pecs.jpg" class="card-img-top" alt="Chest">
+                        <div class="card-body">
+                            <h5 class="card-title">Chest Workout</h5>
+                            <p class="card-text">Build well-defined chest muscles with the most effective chest exercises.</p>
+                            <a href="#" class="btn btn-outline-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card workout-card">
+                        <img src="/images/yoga-image.jpg" class="card-img-top" alt="Yoga" id="yoga">
+                        <div class="card-body">
+                            <h5 class="card-title">Yoga Sessions</h5>
+                            <p class="card-text">Enhance flexibility and reduce stress with calming yoga practices.</p>
+                            <a href="#" class="btn btn-outline-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <!-- Second Row -->
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card workout-card">
+                        <img src="/images/quads.jpg" class="card-img-top" alt="Legs">
+                        <div class="card-body">
+                            <h5 class="card-title">Leg Workout</h5>
+                            <p class="card-text">Strengthen and tone your lower body with these powerful leg exercises.</p>
+                            <a href="#" class="btn btn-outline-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card workout-card">
+                        <img src="/images/arms.jpg" class="card-img-top" alt="Arms">
+                        <div class="card-body">
+                            <h5 class="card-title">Arm Workout</h5>
+                            <p class="card-text">Build strength and definition in your arms with targeted exercises.</p>
+                            <a href="#" class="btn btn-outline-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card workout-card">
+                        <img src="/images/cardio.jpg" class="card-img-top" alt="Cardio">
+                        <div class="card-body">
+                            <h5 class="card-title">Cardio Sessions</h5>
+                            <p class="card-text">Boost your endurance and burn calories with intense cardio workouts.</p>
+                            <a href="#" class="btn btn-outline-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr style="border: #343a40 3px solid;">
+    </section>
+        <div class="text-center">
+            <h3>You don't know what workouts you need?</h3>
+            <h4>Use the calculator below to find your ideal workout</h4>
+        </div>
+        
+    <section>
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-header text-center">
+                            <h3>Workout Plan Calculator</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="workoutForm">
+                                <div class="mb-3">
+                                    <label for="height" class="form-label">Height (cm)</label>
+                                    <input type="number" class="form-control" id="height" name="height" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="weight" class="form-label">Weight (kg)</label>
+                                    <input type="number" class="form-control" id="weight" name="weight" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="age" class="form-label">Age</label>
+                                    <input type="number" class="form-control" id="age" name="age" required>
+                                </div>
+                                
+                                <button type="button" class="btn btn-primary w-100" onclick="calculateWorkoutPlan()">Calculate</button>
+                            </form>
+                        </div>
+                        <div class="card-footer text-center" id="workoutResult" style="display: none;">
+                            <!-- Result will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr style="border: #343a40 3px solid;">
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <p>&copy; 2025 FitLife. All rights reserved.</p>
+            <p><a href="#" class="text-white">Privacy Policy</a> | <a href="#" class="text-white">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        function calculateWorkoutPlan() {
+            const height = document.getElementById('height').value;
+            const weight = document.getElementById('weight').value;
+            const age = document.getElementById('age').value;
+            
+
+            const heightInMeters = height / 100;
+            const bmi = weight / (heightInMeters * heightInMeters);
+
+            let workoutPlan = '';
+
+            if (bmi < 18.5) {
+                workoutPlan = 'Underweight: Focus on strength training to build muscle mass, combined with a calorie-rich diet.';
+            } else if (bmi >= 18.5 && bmi < 24.9) {
+                workoutPlan = 'Normal weight: Maintain your fitness with a balanced mix of cardio and strength training.';
+            } else if (bmi >= 25 && bmi < 29.9) {
+                workoutPlan = 'Overweight: Incorporate regular cardio exercises to aid weight loss, along with strength training.';
+            } else {
+                workoutPlan = 'Obese: Begin with low-impact cardio exercises and gradually introduce strength training, under professional supervision.';
+            }
+            
+            const resultDiv = document.getElementById('workoutResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `<h5 style="color: green; ">${workoutPlan}</h5>`;
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
