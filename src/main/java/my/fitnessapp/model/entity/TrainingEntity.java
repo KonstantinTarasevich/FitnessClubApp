@@ -1,11 +1,14 @@
 package my.fitnessapp.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "trainings")
@@ -13,27 +16,53 @@ public class TrainingEntity extends BaseEntity {
 
     @NotNull(message = "Training name is required")
     @Size(min = 3, max = 50, message = "Training name must be between 3 and 50 characters")
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
+    @NotNull(message = "Date is required")
+    @Column(nullable = false, name = "start_date")
+    private LocalDateTime startDate;
+
+    @NotNull(message = "Date is required")
+    @Column(nullable = false, name = "end_date")
+    private LocalDateTime endDate;
+
+    @NotNull(message = "Coach is required")
     @ManyToOne
     @JoinColumn(name = "coach_id", nullable = false)
     private CoachEntity coach;
 
-    @Positive(message = "Max participants must be a positive number")
-    @Column(nullable = false, name = "max_participants")
-    private int maxParticipants;
-
-    @NotNull(message = "Date and time are required")
-    @Column(nullable = false, name = "date_time")
-    private LocalDateTime dateTime;
+    @ManyToMany
+    @JoinTable(
+            name = "training_users",
+            joinColumns = @JoinColumn(name = "training_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<UserEntity> participants = new ArrayList<>();
 
     public String getName() {
         return name;
     }
 
-    public TrainingEntity setName(String name) {
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public TrainingEntity setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+        return this;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public TrainingEntity setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
         return this;
     }
 
@@ -41,26 +70,15 @@ public class TrainingEntity extends BaseEntity {
         return coach;
     }
 
-    public TrainingEntity setCoach(CoachEntity coach) {
+    public void setCoach(CoachEntity coach) {
         this.coach = coach;
-        return this;
     }
 
-    public int getMaxParticipants() {
-        return maxParticipants;
+    public List<UserEntity> getParticipants() {
+        return participants;
     }
 
-    public TrainingEntity setMaxParticipants(int maxParticipants) {
-        this.maxParticipants = maxParticipants;
-        return this;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public TrainingEntity setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-        return this;
+    public void setParticipants(List<UserEntity> participants) {
+        this.participants = participants;
     }
 }
