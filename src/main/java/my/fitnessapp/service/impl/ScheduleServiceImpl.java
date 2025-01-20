@@ -58,6 +58,23 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<ScheduleDTO> getAllSchedulesOrderedByDateTime() {
+        return scheduleRepository.findAllByOrderByStartTimeAsc()
+                .stream()
+                .map(schedule -> new ScheduleDTO(
+                        schedule.getId(),
+                        schedule.getName(),
+                        schedule.getCoach(),
+                        schedule.getMaxParticipants(),
+                        schedule.getStartTime(),
+                        schedule.getEndTime()
+                ))
+                .collect(Collectors.toList());
+    }
+
+
+
     private ScheduleDTO convertToDTO(ScheduleEntity entity) {
         ScheduleDTO dto = new ScheduleDTO();
         dto.setId(entity.getId());

@@ -12,6 +12,16 @@ public class ScheduleDTO {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
+    public ScheduleDTO(Long id, String name, String coach, int maxParticipants, LocalDateTime startTime, LocalDateTime endTime) {
+        this.id = id;
+        this.name = name;
+        this.coach = coach;
+        this.maxParticipants = maxParticipants;
+        this.currentParticipants = currentParticipants;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
     public Long getId() {
         return id;
     }
@@ -67,4 +77,10 @@ public class ScheduleDTO {
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
+
+    public ScheduleDTO() {
+
+    }
+
+
 }
