@@ -56,8 +56,10 @@
                 <!-- Loop through the members using Thymeleaf -->
                 <tr th:each="member : ${members}">
                     <td th:text="${member.firstName}"></td>
-                    <td th:text="${member.lastName}"></td>
-                    <td th:text="${member.age}"></td>
+                    <td th:text="${member.email}"></td>
+
+                    <td th:text="${member.phoneNumber}"></td>
+
                     <td>
                         <!-- Edit and Delete buttons -->
                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
