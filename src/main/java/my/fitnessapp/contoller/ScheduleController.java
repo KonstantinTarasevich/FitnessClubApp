@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/schedules")
+@RequestMapping("schedules")
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
@@ -25,3 +25,23 @@ public class ScheduleController {
         return ResponseEntity.ok(scheduleService.getAllSchedulesOrderedByDateTime());
     }
 }
+
+
+//    @GetMapping("/create")
+//    public String showCreateForm(Model model) {
+//        model.addAttribute("schedule", new ScheduleDTO());
+//        return "schedule";
+//    }
+//
+//    @PostMapping("/create")
+//    public String createSchedule(@ModelAttribute ScheduleDTO scheduleDTO) {
+//        scheduleService.createSchedule(scheduleDTO);
+//        return "redirect:/schedules";
+//    }
+//
+//    @DeleteMapping("/delete/{id}")
+//    public String deleteSchedule(@PathVariable Long id) {
+//        scheduleService.deleteSchedule(id);
+//        return "redirect:/schedules";
+//    }
+//}
