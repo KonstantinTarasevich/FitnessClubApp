@@ -3,13 +3,14 @@ package my.fitnessapp.contoller;
 import my.fitnessapp.model.dto.ScheduleDTO;
 import my.fitnessapp.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("schedules")
+@Controller
+@RequestMapping("/schedules")
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
@@ -19,24 +20,28 @@ public class ScheduleController {
         this.scheduleService = scheduleService;
     }
 
-    @PostMapping
-    public ResponseEntity<ScheduleDTO> createSchedule(@RequestBody ScheduleDTO scheduleDTO) {
-        return ResponseEntity.ok(scheduleService.createSchedule(scheduleDTO));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ScheduleDTO> updateSchedule(@PathVariable Long id, @RequestBody ScheduleDTO scheduleDTO) {
-        return ResponseEntity.ok(scheduleService.updateSchedule(id, scheduleDTO));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
-        scheduleService.deleteSchedule(id);
-        return ResponseEntity.noContent().build();
-    }
-
     @GetMapping
-    public ResponseEntity<List<ScheduleDTO>> getAllSchedules() {
-        return ResponseEntity.ok(scheduleService.getAllSchedules());
+    public String getAllSchedules(Model model) {
+        List<ScheduleDTO> schedules = scheduleService.getAllSchedules();
+        model.addAttribute("schedules", schedules);
+        return "schedule";
+    }
+
+    @GetMapping("/create")
+    public String showCreateForm(Model model) {
+        model.addAttribute("schedule", new ScheduleDTO());
+        return "schedule";
+    }
+
+    @PostMapping("/create")
+    public String createSchedule(@ModelAttribute ScheduleDTO scheduleDTO) {
+        scheduleService.createSchedule(scheduleDTO);
+        return "redirect:/schedules";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteSchedule(@PathVariable Long id) {
+        scheduleService.deleteSchedule(id);
+        return "redirect:/schedules";
     }
 }
