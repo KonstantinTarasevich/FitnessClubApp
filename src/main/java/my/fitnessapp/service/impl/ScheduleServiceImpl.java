@@ -74,7 +74,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
 
-
     private ScheduleDTO convertToDTO(ScheduleEntity entity) {
         ScheduleDTO dto = new ScheduleDTO();
         dto.setId(entity.getId());

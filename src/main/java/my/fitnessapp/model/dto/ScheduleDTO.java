@@ -11,6 +11,9 @@ public class ScheduleDTO {
     private int currentParticipants;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    public ScheduleDTO() {
+
+    }
 
     public ScheduleDTO(Long id, String name, String coach, int maxParticipants, LocalDateTime startTime, LocalDateTime endTime) {
         this.id = id;
@@ -78,9 +81,7 @@ public class ScheduleDTO {
         this.endTime = endTime;
     }
 
-    public ScheduleDTO() {
 
-    }
 
 
 }
