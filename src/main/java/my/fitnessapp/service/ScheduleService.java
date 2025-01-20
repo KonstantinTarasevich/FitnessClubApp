@@ -10,4 +10,6 @@ public interface ScheduleService {
     ScheduleDTO updateSchedule(Long id, ScheduleDTO scheduleDTO);
     void deleteSchedule(Long id);
     List<ScheduleDTO> getAllSchedules();
+
+    List<ScheduleDTO> getAllSchedulesOrderedByDateTime();
 }
