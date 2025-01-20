@@ -23,7 +23,7 @@ public class ScheduleController {
     public String schedulePage(Model model) {
         model.addAttribute("Trainings", scheduleService.getAllSchedulesOrderedByDateTime());
         model.addAttribute("customMessage", "Welcome to the schedule page!");
-        return "schedules";
+        return "schedule";
     }
 }
 
