@@ -15,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin-panel")
 public class AdminController {
 
     private final AdminServiceImpl adminService;
@@ -33,12 +32,16 @@ public class AdminController {
         return new UserRegisterDTO();
     }
 
-    @GetMapping()
+    @GetMapping("/admin-panel")
     public String adminPanel(Model model) {
 
         model.addAttribute("allUsers", userService.getAllUserDetails());
+
         long loginCount = loginHistoryService.getLoginsFromLastYearToNow();
         model.addAttribute("loginCount", loginCount);
+
+        long usersCount = userService.getTotalRegisteredUsers();
+        model.addAttribute("usersCount", usersCount);
 
         return "admin-panel";
     }
