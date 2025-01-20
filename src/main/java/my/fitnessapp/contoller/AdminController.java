@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import my.fitnessapp.model.dto.LoginHistoryDTO;
 import my.fitnessapp.model.dto.UserDetailsDTO;
 import my.fitnessapp.model.dto.UserRegisterDTO;
+import my.fitnessapp.model.dto.CoachDTO;
+import my.fitnessapp.service.CoachService;
 import my.fitnessapp.service.ScheduleService;
 import my.fitnessapp.service.impl.AdminServiceImpl;
 import my.fitnessapp.service.impl.LoginHistoryServiceImpl;
@@ -22,14 +24,15 @@ public class AdminController {
     private final AdminServiceImpl adminService;
     private final UserServiceImpl userService;
     private final LoginHistoryServiceImpl loginHistoryService;
-
     private final ScheduleService scheduleService;
+    private final CoachService coachService;
 
-    public AdminController(AdminServiceImpl adminService, UserServiceImpl userService, LoginHistoryServiceImpl loginHistoryService, ScheduleService scheduleService) {
+    public AdminController(AdminServiceImpl adminService, UserServiceImpl userService, LoginHistoryServiceImpl loginHistoryService, ScheduleService scheduleService, CoachService coachService) {
         this.adminService = adminService;
         this.userService = userService;
         this.loginHistoryService = loginHistoryService;
         this.scheduleService = scheduleService;
+        this.coachService = coachService;
     }
 
     @ModelAttribute("registerData")
@@ -39,7 +42,6 @@ public class AdminController {
 
     @GetMapping("/admin-panel")
     public String adminPanel(Model model) {
-
         model.addAttribute("allUsers", userService.getAllUserDetails());
 
         long loginCount = loginHistoryService.getLoginsFromLastYearToNow();
@@ -48,8 +50,11 @@ public class AdminController {
         long usersCount = userService.getTotalRegisteredUsers();
         model.addAttribute("usersCount", usersCount);
 
-        //най популярната тренировка->
+
         addPopularTrainingStats(model);
+
+
+        model.addAttribute("allCoaches", coachService.getAllCoaches());
 
         return "admin-panel";
     }
@@ -103,5 +108,34 @@ public class AdminController {
     private void addPopularTrainingStats(Model model) {
         String mostPopularTraining = scheduleService.getMostPopularTraining();
         model.addAttribute("mostPopularTraining", mostPopularTraining);
+    }
+
+    @GetMapping("/admin-panel/add-coach")
+    public String showAddCoachForm(Model model) {
+        model.addAttribute("coachDTO", new CoachDTO());
+        return "add-coach-form";
+    }
+
+
+    @PostMapping("/admin-panel/add-coach")
+    public String addCoach(@ModelAttribute("coachDTO") CoachDTO coachDTO,
+                           BindingResult bindingResult,
+                           RedirectAttributes redirectAttributes) {
+
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("error", "Моля попълнете всички полета правилно.");
+            return "redirect:/admin-panel";
+        }
+
+        try {
+
+            coachService.addCoach(coachDTO);
+            redirectAttributes.addFlashAttribute("message", "Треньорът беше успешно добавен!");
+            return "redirect:/admin-panel";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Възникна грешка при добавянето на треньора.");
+            return "redirect:/admin-panel";  
+        }
     }
 }
