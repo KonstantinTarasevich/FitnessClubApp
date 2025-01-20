@@ -1,16 +1,15 @@
 package my.fitnessapp.contoller;
 
 
-import my.fitnessapp.model.dto.ScheduleDTO;
 import my.fitnessapp.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("schedules")
+@Controller
+@RequestMapping("/schedule")
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
@@ -20,9 +19,11 @@ public class ScheduleController {
         this.scheduleService = scheduleService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<ScheduleDTO>> getAllSchedules() {
-        return ResponseEntity.ok(scheduleService.getAllSchedulesOrderedByDateTime());
+    @GetMapping()
+    public String schedulePage(Model model) {
+        model.addAttribute("Trainings", scheduleService.getAllSchedulesOrderedByDateTime());
+        model.addAttribute("customMessage", "Welcome to the schedule page!");
+        return "schedules";
     }
 }
 
