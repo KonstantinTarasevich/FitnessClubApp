@@ -39,7 +39,7 @@ public class ScheduleController {
         return "redirect:/schedules";
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteSchedule(@PathVariable Long id) {
         scheduleService.deleteSchedule(id);
         return "redirect:/schedules";
