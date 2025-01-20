@@ -14,9 +14,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -138,6 +138,18 @@ public class UserServiceImpl implements UserService{
 
     public long getTotalRegisteredUsers() {
         return userRepository.count();
+    }
+
+    @Override
+    public List<UserDetailsDTO> getAllUsersSortedByName() {
+        return userRepository.findAllByOrderByUsernameAsc()
+                .stream()
+                .map(user -> new UserDetailsDTO(
+                        user.getName(),
+                        user.getEmail(),
+                        user.getPhone()
+                ))
+                .collect(Collectors.toList());
     }
 
 }

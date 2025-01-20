@@ -2,10 +2,12 @@ package my.fitnessapp.contoller;
 
 import jakarta.validation.Valid;
 import my.fitnessapp.model.dto.LoginHistoryDTO;
+import my.fitnessapp.model.dto.UserDetailsDTO;
 import my.fitnessapp.model.dto.UserRegisterDTO;
 import my.fitnessapp.service.impl.AdminServiceImpl;
 import my.fitnessapp.service.impl.LoginHistoryServiceImpl;
 import my.fitnessapp.service.impl.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -44,6 +46,13 @@ public class AdminController {
         model.addAttribute("usersCount", usersCount);
 
         return "admin-panel";
+    }
+
+    @GetMapping("/members")
+    public String getAllUsersSorted(Model model) {
+        List<UserDetailsDTO> users = userService.getAllUsersSortedByName();
+        model.addAttribute("allUsers", users);
+        return "members";
     }
 
     @GetMapping("/admin-register")
