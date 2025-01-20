@@ -26,20 +26,22 @@
     <table class="table table-bordered schedule-table">
         <thead class="table-light">
         <tr>
-            <th>Day</th>
-            <th>7:00 AM - 8:00 AM</th>
-            <th>8:00 AM - 9:00 AM</th>
-            <th>9:00 AM - 10:00 AM</th>
-            <th>6:00 PM - 7:00 PM</th>
+            <th>Workout Name</th>
+            <th>Coach</th>
+            <th>Max Participants</th>
+            <th>Current Participants</th>
+            <th>Start Time</th>
+            <th>End Time</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="schedule : ${schedules}">
-            <td th:text="${schedule.day}"></td>
-            <td th:text="${schedule.morningSession}"></td>
-            <td th:text="${schedule.noonSession}"></td>
-            <td th:text="${schedule.afternoonSession}"></td>
-            <td th:text="${schedule.eveningSession}"></td>
+            <td th:text="${schedule.name}"></td>
+            <td th:text="${schedule.coach}"></td>
+            <td th:text="${schedule.maxParticipants}"></td>
+            <td th:text="${schedule.currentParticipants}"></td>
+            <td th:text="${#dates.format(schedule.startTime, 'hh:mm a')}"></td>
+            <td th:text="${#dates.format(schedule.endTime, 'hh:mm a')}"></td>
         </tr>
         </tbody>
     </table>
