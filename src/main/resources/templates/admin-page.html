@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,8 +64,13 @@
                     <input type="text" class="form-control" id="workoutName" th:field="*{name}" placeholder="Enter workout name" required>
                 </div>
                 <div class="mb-3">
-                    <label for="coachName" class="form-label">Coach</label>
-                    <input type="text" class="form-control" id="coachName" th:field="*{coach}" placeholder="Enter coach name" required>
+                    <label for="coach" class="form-label">Coach</label>
+                    <select th:field="*{coach}" id="coach" required>
+                        <option th:each="coach : ${coaches}"
+                                th:value="${coach.id}"
+                                th:text="${coach.name}">
+                        </option>
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label for="maxMembers" class="form-label">Maximum Members</label>
@@ -103,8 +108,8 @@
         <div class="col-md-6">
             <form th:action="@{/add-coach}" th:object="${coach}" method="post" class="mt-4">
                 <div class="mb-3">
-                    <label for="coachName" class="form-label">Coach Name</label>
-                    <input type="text" class="form-control" id="coach_Name" th:field="*{name}" placeholder="Enter coach name" required>
+                    <label for="coach" class="form-label">Coach Name</label>
+                    <input type="text" class="form-control" id="coachName" th:field="*{name}" placeholder="Enter coach name" required>
                 </div>
                 <div class="mb-3">
                     <label for="coachDescription" class="form-label">Description</label>
@@ -177,7 +182,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="editCoachName" class="form-label">Coach</label>
-                            <input type="text" class="form-control" id="editCoachName" th:field="*{coach}" required>
+                            <input type="text" class="form-control" id="editCoachName" th:field="*{coach.name}" required>
                         </div>
                         <div class="mb-3">
                             <label for="editMaxMembers" class="form-label">Maximum Members</label>
@@ -203,7 +208,8 @@
                             <label for="editEndHour" class="form-label">End Hour</label>
                             <input type="time" class="form-control" id="editEndHour" th:field="*{endHour}" required>
                         </div>
-                        <input type="hidden" th:field="*{id}" />
+                        <!-- Hidden field for workout ID -->
+                        <input type="hidden" id="workoutId" th:field="*{id}" />
                         <button type="submit" class="btn btn-primary">Save Changes</button>
                     </form>
                 </div>
@@ -212,23 +218,28 @@
     </div>
 
 
+
     <script>
         function openEditModal(id, name, coach, maxMembers, day, startHour, endHour) {
-            // Set the form fields with the workout details
-            document.getElementById('editWorkoutName').value = name;
-            document.getElementById('editCoachName').value = coach;
-            document.getElementById('editMaxMembers').value = maxMembers;
-            document.getElementById('editWeekdays').value = day;
-            document.getElementById('editStartHour').value = startHour;
-            document.getElementById('editEndHour').value = endHour;
+    // Set the form fields with the workout details
+    document.getElementById('editWorkoutName').value = name;
+    document.getElementById('editCoachName').value = coach;
+    document.getElementById('editMaxMembers').value = maxMembers;
+    document.getElementById('editWeekdays').value = day;
+    document.getElementById('editStartHour').value = startHour;
+    document.getElementById('editEndHour').value = endHour;
 
-            // Set the hidden input field with the workout ID
-            document.getElementById('editWorkoutForm').action = '/edit-workout/' + id;
+    // Set the hidden input field with the workout ID
+    document.getElementById('workoutId').value = id;
 
-            // Show the modal
-            var modal = new bootstrap.Modal(document.getElementById('editModal'));
-            modal.show();
-        }
+    // Set the form action URL dynamically
+    document.getElementById('editWorkoutForm').action = '/edit-workout/' + id;
+
+    // Show the modal
+    var modal = new bootstrap.Modal(document.getElementById('editModal'));
+    modal.show();
+}
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

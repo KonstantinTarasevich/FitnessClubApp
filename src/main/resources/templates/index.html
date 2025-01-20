@@ -48,123 +48,28 @@
                 <h2>Workout Categories</h2>
                 <p>Choose a category that suits your fitness goals.</p>
             </div>
-            
-            <!-- First Row -->
-<!--            <div class="row g-4">-->
-<!--                <div class="col-lg-4 col-md-6">-->
-<!--                    <div class="card workout-card">-->
-<!--                        <img src="../static/images/abs.jpg" class="card-img-top" alt="Cardio">-->
-<!--                        <div class="card-body">-->
-<!--                            <h5 class="card-title" th:text="${workout.name}">Ab Workout</h5>-->
-<!--                            <p class="card-text">Get the abs that you have always dreamed of with these core-focused exercises.</p>-->
-<!--                            <a href="#"-->
-<!--                               class="btn btn-outline-primary"-->
-<!--                               th:onclick="${#authorization.expression('isAuthenticated()') ? '' : 'redirectToLogin()'}"-->
-<!--                               data-toggle="modal"-->
-<!--                               data-target="#bookingModal"-->
-<!--                               th:data-workout-name="${workout.name}">-->
-<!--                                Book Now-->
-<!--                            </a>-->
 
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-lg-4 col-md-6">-->
-<!--                    <div class="card workout-card">-->
-<!--                        <img src="../static/images/pecs.jpg" class="card-img-top" alt="Chest">-->
-<!--                        <div class="card-body">-->
-<!--                            <h5 class="card-title" th:text="#{workout.name}">Chest Workout</h5>-->
-<!--                            <p class="card-text">Build well-defined chest muscles with the most effective chest exercises.</p>-->
-<!--                            <a href="#"-->
-<!--                               class="btn btn-outline-primary"-->
-<!--                               th:onclick="${#authorization.expression('isAuthenticated()') ? '' : 'redirectToLogin()'}"-->
-<!--                               data-toggle="modal"-->
-<!--                               data-target="#bookingModal"-->
-<!--                               th:data-workout-name="${workout.name}">-->
-<!--                                Book Now-->
+            <!-- Dynamically Generated Rows -->
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6" th:each="training : ${trainings}">
+                    <div class="card workout-card">
+                        <div class="card-body">
+                            <!-- Training Name -->
+                            <h5 class="card-title" th:text="${training.name}">Training Name</h5>
 
-<!--                            </a>-->
+                            <!-- Coach Name (instead of Coach ID) -->
+                            <p class="card-text">
+                                Coach: <span th:text="${training.coach.name}">Coach Name</span>
+                            </p>
 
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-lg-4 col-md-6">-->
-<!--                    <div class="card workout-card">-->
-<!--                        <img src="../static/images/yoga-image.jpg" class="card-img-top" alt="Yoga" id="yoga">-->
-<!--                        <div class="card-body">-->
-<!--                            <h5 class="card-title" th:text="${workout.name}">Yoga Sessions</h5>-->
-<!--                            <p class="card-text">Enhance flexibility and reduce stress with calming yoga practices.</p>-->
-<!--                            <a href="#"-->
-<!--                               class="btn btn-outline-primary"-->
-<!--                               th:onclick="${#authorization.expression('isAuthenticated()') ? '' : 'redirectToLogin()'}"-->
-<!--                               data-toggle="modal"-->
-<!--                               data-target="#bookingModal"-->
-<!--                               th:data-workout-name="${workout.name}">-->
-<!--                                Book Now-->
-<!--                            </a>-->
-
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <hr>-->
-<!--            &lt;!&ndash; Second Row &ndash;&gt;-->
-<!--            <div class="row g-4">-->
-<!--                <div class="col-lg-4 col-md-6">-->
-<!--                    <div class="card workout-card">-->
-<!--                        <img src="../static/images/quads.jpg" class="card-img-top" alt="Legs">-->
-<!--                        <div class="card-body">-->
-<!--                            <h5 class="card-title" th:text="${workout.name}">Leg Workout</h5>-->
-<!--                            <p class="card-text">Strengthen and tone your lower body with these powerful leg exercises.</p>-->
-<!--                            <a href="#"-->
-<!--                               class="btn btn-outline-primary"-->
-<!--                               th:onclick="${#authorization.expression('isAuthenticated()') ? '' : 'redirectToLogin()'}"-->
-<!--                               data-toggle="modal"-->
-<!--                               data-target="#bookingModal"-->
-<!--                               th:data-workout-name="${workout.name}">-->
-<!--                                Book Now-->
-<!--                            </a>-->
-
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-lg-4 col-md-6">-->
-<!--                    <div class="card workout-card">-->
-<!--                        <img src="../static/images/arms.jpg" class="card-img-top" alt="Arms">-->
-<!--                        <div class="card-body">-->
-<!--                            <h5 class="card-title" th:text="${workout.name}">Arm Workout</h5>-->
-<!--                            <p class="card-text">Build strength and definition in your arms with targeted exercises.</p>-->
-<!--                            <a href="#"-->
-<!--                               class="btn btn-outline-primary"-->
-<!--                               th:onclick="${#authorization.expression('isAuthenticated()') ? '' : 'redirectToLogin()'}"-->
-<!--                               data-toggle="modal"-->
-<!--                               data-target="#bookingModal"-->
-<!--                               th:data-workout-name="${workout.name}">-->
-<!--                                Book Now-->
-<!--                            </a>-->
-
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-lg-4 col-md-6">-->
-<!--                    <div class="card workout-card">-->
-<!--                        <img src="../static/images/cardio.jpg" class="card-img-top" alt="Cardio">-->
-<!--                        <div class="card-body">-->
-<!--                            <h5 class="card-title" th:text="${workout.name}">Cardio Sessions</h5>-->
-<!--                            <p class="card-text">Boost your endurance and burn calories with intense cardio workouts.</p>-->
-<!--                            <a href="#"-->
-<!--                               class="btn btn-outline-primary"-->
-<!--                               th:onclick="${#authorization.expression('isAuthenticated()') ? '' : 'redirectToLogin()'}"-->
-<!--                               data-toggle="modal"-->
-<!--                               data-target="#bookingModal"-->
-<!--                               th:data-workout-name="${workout.name}">-->
-<!--                                Book Now-->
-<!--                            </a>-->
-
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+                            <!-- Coach ID (Optional) -->
+                            <p class="card-text">
+                                Coach ID: <span th:text="${training.coach.id}">Coach ID</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <hr style="border: #343a40 3px solid;">
     </section>

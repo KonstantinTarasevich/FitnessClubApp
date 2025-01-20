@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,6 +63,7 @@
                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
                                 th:attr="onclick='editMember(${member.firstName}, ${member.lastName}, ${member.age})'">Edit</button>
                         <button class="btn btn-danger btn-sm" th:onclick="|deleteMember(${member.id})|">Delete</button>
+                        <a class="btn btn-success btn-sm" th:href="@{/view-history/{id}(id=${member.id})}">View History</a>
                     </td>
                 </tr>
                 </tbody>
