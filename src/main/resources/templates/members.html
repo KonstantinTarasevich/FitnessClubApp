@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,23 +36,7 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">FitLife</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="register.html">This is supposed to be a logout button</a></li>
-                    <li class="nav-item"><a class="nav-link" href="schedule.html">Schedule</a></li>
-                    <li class="nav-item"><a class="nav-link" href="members.html">Members</a></li>
-                    <li class="nav-item"><a class="nav-link" href="workoutRequests.html">Workout Requests</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<div th:replace="fragments/navbar :: navbar"></div>
 
 <div class="container">
     <h1>Registered Members</h1>
@@ -60,56 +44,50 @@
         <div class="col-md-6">
             <table class="table table-bordered">
                 <thead>
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Age</th>
-                        <th>Actions</th>
-                    </tr>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Age</th>
+                    <th>Actions</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>30</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editMember('John', 'Doe', 30)">Edit</button>
-                            <button class="btn btn-danger btn-sm">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Jane</td>
-                        <td>Smith</td>
-                        <td>25</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editMember('Jane', 'Smith', 25)">Edit</button>
-                            <button class="btn btn-danger btn-sm">Delete</button>
-                        </td>
-                    </tr>
+                <!-- Loop through the members using Thymeleaf -->
+                <tr th:each="member : ${members}">
+                    <td th:text="${member.firstName}"></td>
+                    <td th:text="${member.lastName}"></td>
+                    <td th:text="${member.age}"></td>
+                    <td>
+                        <!-- Edit and Delete buttons -->
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
+                                th:attr="onclick='editMember(${member.firstName}, ${member.lastName}, ${member.age})'">Edit</button>
+                        <button class="btn btn-danger btn-sm" th:onclick="|deleteMember(${member.id})|">Delete</button>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>
 
         <div class="fixed-form" style="border: 3px solid ;padding: 10px; border-radius: 4px;">
             <h2>Create Member</h2>
-            <form >
+            <form th:action="@{/members}" method="post">
                 <div class="form-row">
                     <div class="form-column">
                         <div class="mb-3">
                             <label for="firstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="firstName" placeholder="Enter first name" required>
+                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name" required>
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="mb-3">
                             <label for="lastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" placeholder="Enter last name" required>
+                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter last name" required>
                         </div>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="age" class="form-label">Age</label>
-                    <input type="number" class="form-control" id="age" placeholder="Enter age" required>
+                    <input type="number" class="form-control" id="age" name="age" placeholder="Enter age" required>
                 </div>
                 <button type="submit" class="btn btn-success">Create Member</button>
             </form>
@@ -128,15 +106,15 @@
                 <form id="editForm">
                     <div class="mb-3">
                         <label for="editFirstName" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="editFirstName" required>
+                        <input type="text" class="form-control" id="editFirstName" name="editFirstName" required>
                     </div>
                     <div class="mb-3">
                         <label for="editLastName" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="editLastName" required>
+                        <input type="text" class="form-control" id="editLastName" name="editLastName" required>
                     </div>
                     <div class="mb-3">
                         <label for="editAge" class="form-label">Age</label>
-                        <input type="number" class="form-control" id="editAge" required>
+                        <input type="number" class="form-control" id="editAge" name="editAge" required>
                     </div>
                     <button type="submit" class="btn btn-success">Save Changes</button>
                 </form>
@@ -153,6 +131,11 @@
         document.getElementById('editFirstName').value = firstName;
         document.getElementById('editLastName').value = lastName;
         document.getElementById('editAge').value = age;
+    }
+
+    // For delete member, you'll implement it via the controller in your backend
+    function deleteMember(id) {
+        // Send a request to delete the member with the given id
     }
 </script>
 

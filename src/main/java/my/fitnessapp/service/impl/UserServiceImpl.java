@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,25 +43,30 @@ public class UserServiceImpl implements UserService{
     }
 
     public boolean register(UserRegisterDTO data) {
-        Optional<UserEntity> existingUser = userRepository.findByUsername(data.getUsername());
+        try {
+            Optional<UserEntity> existingUser = userRepository.findByUsername(data.getUsername());
+            if (existingUser.isPresent()) {
+                System.out.println("Username already exists: " + data.getUsername());
+                return false;
+            }
 
-        if (existingUser.isPresent()) {
+            UserEntity user = modelMapper.map(data, UserEntity.class);
+            user.setPassword(passwordEncoder.encode(data.getPassword()));
+
+            UserRoleEntity userRole = userRoleRepository.findById(1)
+                    .orElseThrow(() -> new RuntimeException("Role not found"));
+
+            user.getRoles().add(userRole);
+            System.out.println("User before save: " + user);
+
+            userRepository.save(user);
+            System.out.println("User saved successfully with ID: " + user.getId());
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error during registration: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
-
-        UserEntity user = modelMapper.map(data, UserEntity.class);
-
-
-        user.setPassword(passwordEncoder.encode(data.getPassword()));
-
-        UserRoleEntity userRole = userRoleRepository.findById(1)
-                .orElseThrow(() -> new RuntimeException("Role not found"));
-
-        user.getRoles().add(userRole);
-
-        this.userRepository.save(user);
-
-        return true;
     }
 
     public UserEntity findUserByUsername(String username) {

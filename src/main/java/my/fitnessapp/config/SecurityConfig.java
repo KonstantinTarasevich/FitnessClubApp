@@ -21,8 +21,8 @@ public class SecurityConfig {
                         authorizeRequests ->
                                 authorizeRequests
                                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                        .requestMatchers("/", "/login", "/register").permitAll()
-                                        .requestMatchers("/admin-panel", "/admin-page").hasRole("ADMIN")
+                                        .requestMatchers("/", "/login", "/register", "/schedule").permitAll()
+                                        .requestMatchers("/admin-panel", "/members", "workoutRequests", "/register-admin").hasRole("ADMIN")
                                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .logout(
                         logout ->
                                 logout
-                                        .logoutUrl("/users/logout")
+                                        .logoutUrl("/logout")
                                         .logoutSuccessUrl("/")
                                         .invalidateHttpSession(true)
                 )

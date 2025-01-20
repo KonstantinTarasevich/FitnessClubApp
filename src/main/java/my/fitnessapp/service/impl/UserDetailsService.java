@@ -39,8 +39,7 @@ public class UserDetailsService implements org.springframework.security.core.use
         return new UserData(
                 userEntity.getUsername(),
                 userEntity.getPassword(),
-                userEntity.getRoles().stream().map(UserRoleEntity::getRole).map(UserDetailsService::map).toList(),
-                userEntity.getName()
+                userEntity.getRoles().stream().map(UserRoleEntity::getRole).map(UserDetailsService::map).toList()
         );
     }
 
