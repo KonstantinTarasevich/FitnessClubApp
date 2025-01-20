@@ -35,4 +35,10 @@ public class LoginHistoryServiceImpl implements LoginHistoryService {
                         entity.getLoginTime()))
                 .toList();
     }
+
+    public long getLoginsFromLastYearToNow() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime lastYear = now.minusYears(1);
+        return loginHistoryRepository.countByLoginTimeBetween(lastYear, now);
+    }
 }
