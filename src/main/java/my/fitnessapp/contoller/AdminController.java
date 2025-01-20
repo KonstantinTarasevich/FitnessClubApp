@@ -3,7 +3,6 @@ package my.fitnessapp.contoller;
 import jakarta.validation.Valid;
 import my.fitnessapp.model.dto.LoginHistoryDTO;
 import my.fitnessapp.model.dto.UserRegisterDTO;
-import my.fitnessapp.service.LoginHistoryService;
 import my.fitnessapp.service.impl.AdminServiceImpl;
 import my.fitnessapp.service.impl.LoginHistoryServiceImpl;
 import my.fitnessapp.service.impl.UserServiceImpl;
@@ -38,6 +37,8 @@ public class AdminController {
     public String adminPanel(Model model) {
 
         model.addAttribute("allUsers", userService.getAllUserDetails());
+        long loginCount = loginHistoryService.getLoginsFromLastYearToNow();
+        model.addAttribute("loginCount", loginCount);
 
         return "admin-panel";
     }
