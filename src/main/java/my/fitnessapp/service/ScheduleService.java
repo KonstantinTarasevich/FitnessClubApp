@@ -12,4 +12,6 @@ public interface ScheduleService {
     List<ScheduleDTO> getAllSchedules();
 
     List<ScheduleDTO> getAllSchedulesOrderedByDateTime();
+
+    String getMostPopularTraining();
 }

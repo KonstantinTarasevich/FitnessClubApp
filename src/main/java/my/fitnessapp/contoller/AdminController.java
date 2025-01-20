@@ -4,10 +4,10 @@ import jakarta.validation.Valid;
 import my.fitnessapp.model.dto.LoginHistoryDTO;
 import my.fitnessapp.model.dto.UserDetailsDTO;
 import my.fitnessapp.model.dto.UserRegisterDTO;
+import my.fitnessapp.service.ScheduleService;
 import my.fitnessapp.service.impl.AdminServiceImpl;
 import my.fitnessapp.service.impl.LoginHistoryServiceImpl;
 import my.fitnessapp.service.impl.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,10 +23,13 @@ public class AdminController {
     private final UserServiceImpl userService;
     private final LoginHistoryServiceImpl loginHistoryService;
 
-    public AdminController(AdminServiceImpl adminService, UserServiceImpl userService, LoginHistoryServiceImpl loginHistoryService) {
+    private final ScheduleService scheduleService;
+
+    public AdminController(AdminServiceImpl adminService, UserServiceImpl userService, LoginHistoryServiceImpl loginHistoryService, ScheduleService scheduleService) {
         this.adminService = adminService;
         this.userService = userService;
         this.loginHistoryService = loginHistoryService;
+        this.scheduleService = scheduleService;
     }
 
     @ModelAttribute("registerData")
@@ -44,6 +47,9 @@ public class AdminController {
 
         long usersCount = userService.getTotalRegisteredUsers();
         model.addAttribute("usersCount", usersCount);
+
+        //най популярната тренировка->
+        addPopularTrainingStats(model);
 
         return "admin-panel";
     }
@@ -91,5 +97,11 @@ public class AdminController {
     @GetMapping("/{userId}/login-history")
     public List<LoginHistoryDTO> getLoginHistory(@PathVariable Long userId) {
         return loginHistoryService.getLoginHistoryByUserId(userId);
+    }
+
+
+    private void addPopularTrainingStats(Model model) {
+        String mostPopularTraining = scheduleService.getMostPopularTraining();
+        model.addAttribute("mostPopularTraining", mostPopularTraining);
     }
 }

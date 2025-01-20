@@ -7,6 +7,7 @@ import my.fitnessapp.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,4 +86,17 @@ public class ScheduleServiceImpl implements ScheduleService {
         dto.setEndTime(entity.getEndTime());
         return dto;
     }
+
+    public String getMostPopularTraining() {
+        List<ScheduleEntity> allSchedules = scheduleRepository.findAll();
+
+
+        ScheduleEntity mostPopularSchedule = allSchedules.stream()
+                .max(Comparator.comparingInt(ScheduleEntity::getMaxParticipants))
+                .orElse(null);
+
+        return mostPopularSchedule != null ? mostPopularSchedule.getName() : "there is no favourite training";
+    }
+
+
 }
