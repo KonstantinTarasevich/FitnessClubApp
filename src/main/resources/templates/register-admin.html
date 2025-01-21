@@ -1,41 +1,110 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitLife | Register Admin</title>
+  <title>FitLife | Register Admin</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body style="background-color: rgb(49, 46, 46);">
-<div class="container d-flex justify-content-center align-items-center vh-100">
-  <div class="w-50">
-    <h2 class="text-center mb-4 text-white">Register Admin</h2>
-    <form th:action="@{/register/admin}" method="post" th:object="${user}">
-      <div th:replace="fragments/navbar :: navbar"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div class="container mt-5">
+  <h1>Register</h1>
 
-      <!-- Name -->
-      <div class="mb-3">
-        <label for="name" class="form-label text-white">Full Name</label>
-        <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="His Name" required>
+  <form th:method="POST"
+        th:object="${registerData}"
+        th:action="@{/register-admin}">
+
+    <div class="form-group">
+      <label for="name" class="h4 mb-2">Name</label>
+      <small class="form-text text-muted">Enter your full name.</small>
+      <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              th:field="*{name}"
+              th:errorclass="'is-invalid alert-danger'" required minlength="3" maxlength="20"
+      />
+      <small th:each="error: ${#fields.errors('name')}" th:text="${error}" class="invalid-feedback text-danger"></small>
+    </div>
+
+    <div class="form-group">
+      <label for="email" class="h4 mb-2">Email</label>
+      <small class="form-text text-muted">Enter your email.</small>
+      <input
+              type="text"
+              class="form-control"
+              id="email"
+              name="email"
+              th:field="*{email}"
+              th:errorclass="'is-invalid alert-danger'" required minlength="3" maxlength="30"
+      />
+      <small th:each="error: ${#fields.errors('email')}" th:text="${error}" class="invalid-feedback text-danger"></small>
+    </div>
+
+    <div class="form-group">
+      <label for="phone" class="h4 mb-2">Phone Number</label>
+      <small class="form-text text-muted">Enter your phone number.</small>
+      <input
+              type="text"
+              class="form-control"
+              id="phone"
+              name="phone"
+              th:field="*{phone}"
+              th:errorclass="'is-invalid alert-danger'" required minlength="3" maxlength="20"
+      />
+      <small th:each="error: ${#fields.errors('phone')}" th:text="${error}" class="invalid-feedback text-danger"></small>
+    </div>
+
+    <div class="form-group">
+      <label for="username" class="h4 mb-2">Username</label>
+      <small class="form-text text-muted">Enter your username.</small>
+      <input
+              type="text"
+              class="form-control"
+              id="username"
+              name="username"
+              th:field="*{username}"
+              th:errorclass="'is-invalid alert-danger'" required minlength="3" maxlength="20"
+      />
+      <small th:each="error: ${#fields.errors('username')}" th:text="${error}" class="invalid-feedback text-danger"></small>
+    </div>
+
+    <div class="form-group">
+      <label for="password" class="h4 mb-2">Password</label>
+      <small class="form-text text-muted">Enter your password.</small>
+      <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              th:field="*{password}"
+              th:errorclass="'is-invalid alert-danger'" required minlength="3" maxlength="20"
+      />
+      <small th:each="error: ${#fields.errors('password')}" th:text="${error}" class="invalid-feedback text-danger"></small>
+    </div>
+
+    <div class="form-group">
+      <label for="confirmPassword" class="h4 mb-2">Confirm Password</label>
+      <small class="form-text text-muted">Enter your password again.</small>
+      <input
+              type="password"
+              class="form-control"
+              id="confirmPassword"
+              name="confirmPassword"
+              th:field="*{confirmPassword}"
+              th:errorclass="'is-invalid alert-danger'" required minlength="3" maxlength="20"
+      />
+      <small th:each="error: ${#fields.errors('confirmPassword')}" th:text="${error}" class="invalid-feedback text-danger"></small>
+    </div>
+
+    <div class="form-group">
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-success btn-lg">Register</button>
       </div>
-
-      <!-- Email -->
-      <div class="mb-3">
-        <label for="email" class="form-label text-white">Email</label>
-        <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="His Email" required>
-      </div>
-
-      <!-- Password -->
-      <div class="mb-3">
-        <label for="password" class="form-label text-white">Password</label>
-        <input type="password" id="password" th:field="*{password}" class="form-control" placeholder="His Password" required>
-      </div>
-
-      <!-- Submit Button -->
-      <button type="submit" class="btn btn-primary w-100 mt-3">Register New Admin</button>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
-
 </body>
 </html>
