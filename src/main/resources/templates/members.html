@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -46,9 +45,9 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Age</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -56,12 +55,14 @@
                 <tr th:each="user : ${allUsers}">
                     <td th:text="${user.name}"></td>
                     <td th:text="${user.email}"></td>
-                    <td th:text="${user.username}"></td>
                     <td th:text="${user.phone}"></td>
 
                     <td>
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"></button>
-<!--                                th:attr="onclick=(editMember(${member.firstName}, ${member.lastName}, ${member.age})">Edit</button>-->
+                        <!-- Edit button to trigger modal -->
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
+                                th:attr="onclick='editMember(${user.name}, ${user.email}, ${user.phone})'">Edit</button>
+
+                        <!-- Delete button -->
                         <form th:action="@{/delete/{id}(id=${user.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete this user?');">
                             <input type="hidden" name="_method" value="DELETE" />
                             <button type="submit" class="btn btn-sm btn-danger">Delete</button>
@@ -72,11 +73,10 @@
                 </tbody>
             </table>
         </div>
-
-
     </div>
 </div>
 
+<!-- Modal for editing member -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -87,16 +87,16 @@
             <div class="modal-body">
                 <form id="editForm">
                     <div class="mb-3">
-                        <label for="editFirstName" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="editFirstName" name="editFirstName" required>
+                        <label for="editName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="editName" name="editName" required>
                     </div>
                     <div class="mb-3">
-                        <label for="editLastName" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="editLastName" name="editLastName" required>
+                        <label for="editEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="editEmail" name="editEmail" required>
                     </div>
                     <div class="mb-3">
-                        <label for="editAge" class="form-label">Age</label>
-                        <input type="number" class="form-control" id="editAge" name="editAge" required>
+                        <label for="editPhoneNumber" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="editPhoneNumber" name="editPhoneNumber" required>
                     </div>
                     <button type="submit" class="btn btn-success">Save Changes</button>
                 </form>
@@ -108,13 +108,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    function editMember(firstName, lastName, age) {
-        document.getElementById('editFirstName').value = firstName;
-        document.getElementById('editLastName').value = lastName;
-        document.getElementById('editAge').value = age;
-    }
-
-    function deleteMember(id) {
+    // Function to fill modal with member data when the edit button is clicked
+    function editMember(name, email, phone) {
+        document.getElementById('editName').value = name;  // Set name field
+        document.getElementById('editEmail').value = email; // Set email field
+        document.getElementById('editPhoneNumber').value = phone; // Set phone field
     }
 </script>
 
