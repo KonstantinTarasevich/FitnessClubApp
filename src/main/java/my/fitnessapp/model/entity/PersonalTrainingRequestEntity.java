@@ -17,6 +17,9 @@ public class PersonalTrainingRequestEntity extends BaseEntity {
     @JoinColumn(name = "coach_id", nullable = false)
     private CoachEntity coach;
 
+    @Column(nullable = false)
+    private String description;
+
     @NotNull(message = "Status is required")
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -46,6 +49,15 @@ public class PersonalTrainingRequestEntity extends BaseEntity {
 
     public PersonalTrainingRequestEntity setStatus(RequestStatusEnum status) {
         this.status = status;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public PersonalTrainingRequestEntity setDescription(String description) {
+        this.description = description;
         return this;
     }
 }
