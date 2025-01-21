@@ -29,28 +29,22 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <!-- Form Section -->
             <div class="form-container">
                 <h3 class="mb-4 text-center">Request a Workout</h3>
-                <form th:action="@{/request-workout}" method="post">
-                    <!-- Description Field -->
+                <form th:action="@{/request-workout}" th:method="post" th:object="${personalTrainingData}">
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="4" placeholder="What do you want to focus on/workout on" required></textarea>
+                        <textarea class="form-control" id="description" th:field="*{description}" rows="4" placeholder="What do you want to focus on/workout on"></textarea>
                     </div>
-
-                    <!-- Coach Enum Selection -->
                     <div class="mb-3">
                         <label for="coach" class="form-label">Select Coach</label>
-                        <select class="form-select" id="coach" name="coach" required>
-                            <option value="" disabled selected>Select a coach</option>
-                            <option th:each="coach : ${T(com.example.CoachEnum).values()}"
-                                    th:value="${coach.name()}"
-                                    th:text="${coach.name()}"></option>
+                        <select class="form-select" id="coach" th:field="*{coachId}">
+                            <option value="" disabled>Select a coach</option>
+                            <option th:each="coach : ${coaches}"
+                                    th:value="${coach.id}"
+                                    th:text="${coach.name}"></option>
                         </select>
                     </div>
-
-                    <!-- Submit Button -->
                     <div class="d-grid">
                         <button type="submit" class="btn btn-success">Request Workout</button>
                     </div>
@@ -58,8 +52,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Table Section -->
     <div class="table-container">
         <h3 class="mt-4">Requested Workouts</h3>
         <table class="table table-bordered mt-3">
@@ -71,7 +63,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="request : ${requestedWorkouts}">
+            <tr th:each="request : ${personalTrainingRequest}">
                 <td th:text="${request.description}"></td>
                 <td th:text="${request.coach.name}"></td>
                 <td th:text="${request.status}"></td>

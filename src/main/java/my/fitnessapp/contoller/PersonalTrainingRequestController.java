@@ -1,8 +1,11 @@
 package my.fitnessapp.contoller;
 
 import jakarta.validation.Valid;
+import my.fitnessapp.model.dto.CoachDTO;
 import my.fitnessapp.model.dto.PersonalTrainingRequestDTO;
+import my.fitnessapp.service.CoachService;
 import my.fitnessapp.service.PersonalTrainingRequestService;
+import my.fitnessapp.service.impl.CoachServiceImpl;
 import my.fitnessapp.service.impl.PersonalTrainingRequestServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,15 +20,19 @@ import java.util.List;
 public class PersonalTrainingRequestController {
 
     private final PersonalTrainingRequestServiceImpl personalTrainingRequestService;
+    private final CoachServiceImpl coachService;
 
-    public PersonalTrainingRequestController(PersonalTrainingRequestServiceImpl personalTrainingRequestService) {
+    public PersonalTrainingRequestController(PersonalTrainingRequestServiceImpl personalTrainingRequestService, CoachServiceImpl coachService) {
         this.personalTrainingRequestService = personalTrainingRequestService;
+        this.coachService = coachService;
     }
 
     @GetMapping("/request-workout")
     public String personalTrainingRequest(Model model) {
         List<PersonalTrainingRequestDTO> personalTrainingRequest = personalTrainingRequestService.getRequestsForCurrentUser();
         model.addAttribute("personalTrainingRequest", personalTrainingRequest);
+        List<CoachDTO> coaches = coachService.getAllCoaches();
+        model.addAttribute("coaches", coaches);
         return "personal-workout";
     }
 

@@ -7,9 +7,8 @@ import my.fitnessapp.service.CoachService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CoachServiceImpl implements CoachService {
@@ -33,9 +32,18 @@ public class CoachServiceImpl implements CoachService {
     }
 
     @Override
-    public List<CoachEntity> getAllCoaches() {
-        return coachRepository.findAll();
+    public List<CoachDTO> getAllCoaches() {
+        return coachRepository.findAll()
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
     }
 
 
+    private CoachDTO mapToDTO(CoachEntity coachEntity) {
+        CoachDTO coachDTO = new CoachDTO();
+        coachDTO.setId(coachEntity.getId());
+        coachDTO.setName(coachEntity.getName());
+        return coachDTO;
+    }
 }

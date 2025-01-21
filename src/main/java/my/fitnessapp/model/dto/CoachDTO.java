@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Size;
 
 public class CoachDTO {
 
+    private long id;
+
     @NotNull(message = "Coach name is required")
     @Size(min = 3, max = 50, message = "Coach name must be between 3 and 50 characters")
     private String name;
@@ -53,6 +55,15 @@ public class CoachDTO {
 
     public CoachDTO setPhone(String phone) {
         this.phone = phone;
+        return this;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public CoachDTO setId(long id) {
+        this.id = id;
         return this;
     }
 }
