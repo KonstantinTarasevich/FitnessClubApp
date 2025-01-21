@@ -22,7 +22,7 @@ public class SecurityConfig {
                                 authorizeRequests
                                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                         .requestMatchers("/", "/login", "/register", "/schedule").permitAll()
-                                        .requestMatchers("/admin-panel", "/members", "workoutRequests", "/register-admin").hasRole("ADMIN")
+                                        .requestMatchers("/admin-panel", "/members", "/workoutRequests", "/register-admin", "/add-coatch").hasRole("ADMIN")
                                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->

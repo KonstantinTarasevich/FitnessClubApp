@@ -68,7 +68,7 @@ public class AdminController {
 
     @GetMapping("/admin-register")
     public String showRegisterForm() {
-        return "admin-register";
+        return "register-admin";
     }
 
     @PostMapping("/admin-register")
@@ -113,7 +113,7 @@ public class AdminController {
     @GetMapping("/admin-panel/add-coach")
     public String showAddCoachForm(Model model) {
         model.addAttribute("coachDTO", new CoachDTO());
-        return "add-coach-form";
+        return "add-coach";
     }
 
 
