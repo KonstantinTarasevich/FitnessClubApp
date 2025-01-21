@@ -38,7 +38,7 @@
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
-
+<a style="margin:20px;" href="/register" class="btn btn-success btn-sm">Register Member</a>
 <div class="container">
     <h1>Registered Members</h1>
     <div class="row content">
@@ -72,30 +72,7 @@
             </table>
         </div>
 
-        <div class="fixed-form" style="border: 3px solid ;padding: 10px; border-radius: 4px;">
-            <h2>Create Member</h2>
-            <form th:action="@{/members}" method="post">
-                <div class="form-row">
-                    <div class="form-column">
-                        <div class="mb-3">
-                            <label for="firstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name" required>
-                        </div>
-                    </div>
-                    <div class="form-column">
-                        <div class="mb-3">
-                            <label for="lastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter last name" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="age" class="form-label">Age</label>
-                    <input type="number" class="form-control" id="age" name="age" placeholder="Enter age" required>
-                </div>
-                <button type="submit" class="btn btn-success">Create Member</button>
-            </form>
-        </div>
+
     </div>
 </div>
 
