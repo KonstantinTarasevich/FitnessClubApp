@@ -7,9 +7,7 @@ import my.fitnessapp.model.dto.UserRegisterDTO;
 import my.fitnessapp.model.dto.CoachDTO;
 import my.fitnessapp.service.CoachService;
 import my.fitnessapp.service.ScheduleService;
-import my.fitnessapp.service.impl.AdminServiceImpl;
-import my.fitnessapp.service.impl.LoginHistoryServiceImpl;
-import my.fitnessapp.service.impl.UserServiceImpl;
+import my.fitnessapp.service.impl.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,10 +22,10 @@ public class AdminController {
     private final AdminServiceImpl adminService;
     private final UserServiceImpl userService;
     private final LoginHistoryServiceImpl loginHistoryService;
-    private final ScheduleService scheduleService;
-    private final CoachService coachService;
+    private final ScheduleServiceImpl scheduleService;
+    private final CoachServiceImpl coachService;
 
-    public AdminController(AdminServiceImpl adminService, UserServiceImpl userService, LoginHistoryServiceImpl loginHistoryService, ScheduleService scheduleService, CoachService coachService) {
+    public AdminController(AdminServiceImpl adminService, UserServiceImpl userService, LoginHistoryServiceImpl loginHistoryService, ScheduleServiceImpl scheduleService, CoachServiceImpl coachService) {
         this.adminService = adminService;
         this.userService = userService;
         this.loginHistoryService = loginHistoryService;
@@ -38,6 +36,11 @@ public class AdminController {
     @ModelAttribute("registerData")
     public UserRegisterDTO registerDTO(){
         return new UserRegisterDTO();
+    }
+
+    @ModelAttribute("coachData")
+    public CoachDTO coachDTO() {
+        return new CoachDTO();
     }
 
     @GetMapping("/admin-panel")
@@ -119,24 +122,24 @@ public class AdminController {
 
 
     @PostMapping("/admin-panel/add-coach")
-    public String addCoach(@ModelAttribute("coachDTO") CoachDTO coachDTO,
-                           BindingResult bindingResult,
-                           RedirectAttributes redirectAttributes) {
-
-
+    public String addCoach(
+            @Valid CoachDTO data,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
+    ) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("error", "Моля попълнете всички полета правилно.");
-            return "redirect:/admin-panel";
+            redirectAttributes.addFlashAttribute("coachData", data);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.coachData", bindingResult);
+
+            return "redirect:/admin-panel/add-coach";
         }
 
-        try {
+        boolean success = coachService.addCoach(data);
 
-            coachService.addCoach(coachDTO);
-            redirectAttributes.addFlashAttribute("message", "Треньорът беше успешно добавен!");
-            return "redirect:/admin-panel";
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Възникна грешка при добавянето на треньора.");
-            return "redirect:/admin-panel";
+        if (!success) {
+            redirectAttributes.addFlashAttribute("coachData", data);
+            return "redirect:/admin-panel/add-coach";
         }
+        return "redirect:/";
     }
 }
