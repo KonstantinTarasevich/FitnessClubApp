@@ -14,4 +14,6 @@ public interface ScheduleService {
     List<ScheduleDTO> getAllSchedulesOrderedByDateTime();
 
     String getMostPopularTraining();
+
+    boolean reserveSpot(Long scheduleId);
 }

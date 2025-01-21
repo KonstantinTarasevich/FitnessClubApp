@@ -136,7 +136,7 @@ public class AdminController {
             return "redirect:/admin-panel";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Възникна грешка при добавянето на треньора.");
-            return "redirect:/admin-panel";  
+            return "redirect:/admin-panel";
         }
     }
 }
