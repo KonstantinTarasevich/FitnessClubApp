@@ -87,6 +87,16 @@ public class ScheduleServiceImpl implements ScheduleService {
         return dto;
     }
 
+    public boolean reserveSpot(Long scheduleId) {
+        ScheduleEntity schedule = scheduleRepository.findById(scheduleId).orElse(null);
+        if (schedule != null && schedule.getCurrentParticipants() < schedule.getMaxParticipants()) {
+            schedule.setCurrentParticipants(schedule.getCurrentParticipants() + 1);
+            scheduleRepository.save(schedule);
+            return true;
+        }
+        return false;
+    }
+
     public String getMostPopularTraining() {
         List<ScheduleEntity> allSchedules = scheduleRepository.findAll();
 
@@ -97,6 +107,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         return mostPopularSchedule != null ? mostPopularSchedule.getName() : "there is no favourite training";
     }
+
+
 
 
 }
