@@ -4,10 +4,12 @@ import jakarta.validation.Valid;
 import my.fitnessapp.model.dto.LoginHistoryDTO;
 import my.fitnessapp.model.dto.UserDetailsDTO;
 import my.fitnessapp.model.dto.UserRegisterDTO;
+import my.fitnessapp.model.dto.CoachDTO;
+import my.fitnessapp.service.CoachService;
+import my.fitnessapp.service.ScheduleService;
 import my.fitnessapp.service.impl.AdminServiceImpl;
 import my.fitnessapp.service.impl.LoginHistoryServiceImpl;
 import my.fitnessapp.service.impl.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,11 +24,15 @@ public class AdminController {
     private final AdminServiceImpl adminService;
     private final UserServiceImpl userService;
     private final LoginHistoryServiceImpl loginHistoryService;
+    private final ScheduleService scheduleService;
+    private final CoachService coachService;
 
-    public AdminController(AdminServiceImpl adminService, UserServiceImpl userService, LoginHistoryServiceImpl loginHistoryService) {
+    public AdminController(AdminServiceImpl adminService, UserServiceImpl userService, LoginHistoryServiceImpl loginHistoryService, ScheduleService scheduleService, CoachService coachService) {
         this.adminService = adminService;
         this.userService = userService;
         this.loginHistoryService = loginHistoryService;
+        this.scheduleService = scheduleService;
+        this.coachService = coachService;
     }
 
     @ModelAttribute("registerData")
@@ -36,7 +42,6 @@ public class AdminController {
 
     @GetMapping("/admin-panel")
     public String adminPanel(Model model) {
-
         model.addAttribute("allUsers", userService.getAllUserDetails());
 
         long loginCount = loginHistoryService.getLoginsFromLastYearToNow();
@@ -44,6 +49,12 @@ public class AdminController {
 
         long usersCount = userService.getTotalRegisteredUsers();
         model.addAttribute("usersCount", usersCount);
+
+
+        addPopularTrainingStats(model);
+
+
+        model.addAttribute("allCoaches", coachService.getAllCoaches());
 
         return "admin-panel";
     }
@@ -55,12 +66,12 @@ public class AdminController {
         return "members";
     }
 
-    @GetMapping("/admin-register")
+    @GetMapping("/register-admin")
     public String showRegisterForm() {
-        return "admin-register";
+        return "register-admin";
     }
 
-    @PostMapping("/admin-register")
+    @PostMapping("/register-admin")
     public String doRegister(
             @Valid @ModelAttribute("registerData") UserRegisterDTO data,
             BindingResult bindingResult,
@@ -74,7 +85,7 @@ public class AdminController {
             redirectAttributes.addFlashAttribute("registerData", data);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
 
-            return "redirect:/admin-panel/admin-register";
+            return "redirect:/admin-panel/register-admin";
         }
 
         boolean success = adminService.registerAdmin(data);
@@ -91,5 +102,39 @@ public class AdminController {
     @GetMapping("/{userId}/login-history")
     public List<LoginHistoryDTO> getLoginHistory(@PathVariable Long userId) {
         return loginHistoryService.getLoginHistoryByUserId(userId);
+    }
+
+
+    private void addPopularTrainingStats(Model model) {
+        String mostPopularTraining = scheduleService.getMostPopularTraining();
+        model.addAttribute("mostPopularTraining", mostPopularTraining);
+    }
+
+    @GetMapping("/admin-panel/add-coach")
+    public String showAddCoachForm() {
+        return "add-coach";
+    }
+
+
+    @PostMapping("/admin-panel/add-coach")
+    public String addCoach(@ModelAttribute("coachDTO") CoachDTO coachDTO,
+                           BindingResult bindingResult,
+                           RedirectAttributes redirectAttributes) {
+
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("error", "Моля попълнете всички полета правилно.");
+            return "redirect:/admin-panel";
+        }
+
+        try {
+
+            coachService.addCoach(coachDTO);
+            redirectAttributes.addFlashAttribute("message", "Треньорът беше успешно добавен!");
+            return "redirect:/admin-panel";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Възникна грешка при добавянето на треньора.");
+            return "redirect:/admin-panel";  
+        }
     }
 }
