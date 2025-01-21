@@ -68,3 +68,75 @@ html, body {
     font-size: 1.5rem;
     text-transform: uppercase;
 }
+
+.request-training {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+        padding: 60px 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .request-training h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .request-training p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        color: #f8f9fa;
+    }
+
+    .request-training .btn {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border-radius: 30px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .request-training .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .request-training::before {
+        content: '';
+        position: absolute;
+        top: -50px;
+        left: -50px;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        animation: pulse 6s infinite;
+    }
+
+    .request-training::after {
+        content: '';
+        position: absolute;
+        bottom: -50px;
+        right: -50px;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        animation: pulse 6s infinite;
+        animation-delay: 3s;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+            opacity: 0.5;
+        }
+        50% {
+            transform: scale(1.5);
+            opacity: 0;
+        }
+    }

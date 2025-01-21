@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitLife | Home</title>
-    <link rel="stylesheet" href="../static/styles/styles.css">
+    <link rel="stylesheet" th:href="@{../static/styles/styles.css}" />
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .hero {
@@ -80,8 +81,15 @@
             </div>
         </div>
         <hr style="border: #343a40 3px solid;">
-    </section>
-
+        <div class="request-training">
+            <div class="container">
+                <h2>Want a Personal Training Session?</h2>
+                <p>Take your fitness to the next level with a customized workout plan tailored just for you.</p>
+                <a href="/request-training" class="btn btn-light">Request Now</a>
+            </div>
+        </div>
+    </div>
+        <br>
     <div class="text-center">
             <h3>You don't know what workouts you need?</h3>
             <h4>Use the calculator below to find your ideal workout</h4>
