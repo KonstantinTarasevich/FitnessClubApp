@@ -66,12 +66,12 @@ public class AdminController {
         return "members";
     }
 
-    @GetMapping("/admin-register")
+    @GetMapping("/register-admin")
     public String showRegisterForm() {
         return "register-admin";
     }
 
-    @PostMapping("/admin-register")
+    @PostMapping("/register-admin")
     public String doRegister(
             @Valid @ModelAttribute("registerData") UserRegisterDTO data,
             BindingResult bindingResult,
@@ -85,7 +85,7 @@ public class AdminController {
             redirectAttributes.addFlashAttribute("registerData", data);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
 
-            return "redirect:/admin-panel/admin-register";
+            return "redirect:/admin-panel/register-admin";
         }
 
         boolean success = adminService.registerAdmin(data);
@@ -111,8 +111,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin-panel/add-coach")
-    public String showAddCoachForm(Model model) {
-        model.addAttribute("coachDTO", new CoachDTO());
+    public String showAddCoachForm() {
         return "add-coach";
     }
 
