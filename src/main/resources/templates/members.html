@@ -53,19 +53,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!-- Loop through the members using Thymeleaf -->
-                <tr th:each="member : ${members}">
-                    <td th:text="${member.firstName}"></td>
-                    <td th:text="${member.email}"></td>
-
-                    <td th:text="${member.phoneNumber}"></td>
+                <tr th:each="user : ${allUsers}">
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.phone}"></td>
 
                     <td>
-                        <!-- Edit and Delete buttons -->
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
-                                th:attr="onclick='editMember(${member.firstName}, ${member.lastName}, ${member.age})'">Edit</button>
-                        <button class="btn btn-danger btn-sm" th:onclick="|deleteMember(${member.id})|">Delete</button>
-                        <a class="btn btn-success btn-sm" th:href="@{/view-history/{id}(id=${member.id})}">View History</a>
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"></button>
+<!--                                th:attr="onclick=(editMember(${member.firstName}, ${member.lastName}, ${member.age})">Edit</button>-->
+                        <form th:action="@{/delete/{id}(id=${user.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                        <a class="btn btn-success btn-sm" th:href="@{/view-history/{id}(id=${user.id})}">View History</a>
                     </td>
                 </tr>
                 </tbody>
@@ -107,16 +108,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // This function will fill the modal with the member data
     function editMember(firstName, lastName, age) {
         document.getElementById('editFirstName').value = firstName;
         document.getElementById('editLastName').value = lastName;
         document.getElementById('editAge').value = age;
     }
 
-    // For delete member, you'll implement it via the controller in your backend
     function deleteMember(id) {
-        // Send a request to delete the member with the given id
     }
 </script>
 

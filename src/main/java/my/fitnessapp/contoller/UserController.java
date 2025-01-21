@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-@RequestMapping("/users")
 public class UserController {
 
     private final UserServiceImpl userService;
@@ -22,8 +21,8 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
+    @DeleteMapping("/delete/{userId}")
+    public String deleteUser(@PathVariable("userId") Long id) {
         userService.delete(id);
 
         return "redirect:/";

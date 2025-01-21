@@ -145,7 +145,9 @@ public class UserServiceImpl implements UserService{
         return userRepository.findAllByOrderByUsernameAsc()
                 .stream()
                 .map(user -> new UserDetailsDTO(
+                        user.getId(),
                         user.getName(),
+                        user.getUsername(),
                         user.getEmail(),
                         user.getPhone()
                 ))

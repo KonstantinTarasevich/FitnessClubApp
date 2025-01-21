@@ -99,9 +99,11 @@ public class AdminController {
         return "redirect:/admin-panel";
     }
 
-    @GetMapping("/{userId}/login-history")
-    public List<LoginHistoryDTO> getLoginHistory(@PathVariable Long userId) {
-        return loginHistoryService.getLoginHistoryByUserId(userId);
+    @GetMapping("/view-history/{id}")
+    public String getLoginHistory(Model model ,@PathVariable Long id) {
+        List<LoginHistoryDTO> loginHistory = loginHistoryService.getLoginHistoryByUserId(id);
+        model.addAttribute("loginHistory", loginHistory);
+        return "view-history";
     }
 
 
