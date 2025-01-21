@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Workout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .form-container {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-container {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Form Section -->
+            <div class="form-container">
+                <h3 class="mb-4 text-center">Request a Workout</h3>
+                <form th:action="@{/request-workout}" method="post">
+                    <!-- Description Field -->
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" placeholder="What do you want to focus on/workout on" required></textarea>
+                    </div>
+
+                    <!-- Coach Enum Selection -->
+                    <div class="mb-3">
+                        <label for="coach" class="form-label">Select Coach</label>
+                        <select class="form-select" id="coach" name="coach" required>
+                            <option value="" disabled selected>Select a coach</option>
+                            <option th:each="coach : ${T(com.example.CoachEnum).values()}"
+                                    th:value="${coach.name()}"
+                                    th:text="${coach.name()}"></option>
+                        </select>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">Request Workout</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-container">
+        <h3 class="mt-4">Requested Workouts</h3>
+        <table class="table table-bordered mt-3">
+            <thead class="table-light">
+            <tr>
+                <th>Description</th>
+                <th>Coach</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="request : ${requestedWorkouts}">
+                <td th:text="${request.description}"></td>
+                <td th:text="${request.coach.name}"></td>
+                <td th:text="${request.status}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

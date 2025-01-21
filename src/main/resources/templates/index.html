@@ -57,15 +57,23 @@
                             <!-- Training Name -->
                             <h5 class="card-title" th:text="${training.name}">Training Name</h5>
 
-                            <!-- Coach Name (instead of Coach ID) -->
+                            <!-- Coach Name -->
                             <p class="card-text">
                                 Coach: <span th:text="${training.coach.name}">Coach Name</span>
                             </p>
 
-                            <!-- Coach ID (Optional) -->
+                            <!-- Available Spaces -->
                             <p class="card-text">
-                                Coach ID: <span th:text="${training.coach.id}">Coach ID</span>
+                                Available Spaces: <span id="available-spaces-${training.id}" th:text="${training.availableSpaces}">0</span>
                             </p>
+
+                            <!-- Book Now Button -->
+                            <div class="d-grid mt-3">
+                                <button class="btn btn-primary"
+                                        onclick="confirmBooking(${training.id}, '/book/' + ${training.id})">
+                                    Book Now
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -73,7 +81,8 @@
         </div>
         <hr style="border: #343a40 3px solid;">
     </section>
-        <div class="text-center">
+
+    <div class="text-center">
             <h3>You don't know what workouts you need?</h3>
             <h4>Use the calculator below to find your ideal workout</h4>
         </div>

@@ -1,102 +1,52 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitLife | Requests</title>
+    <title>Personal Training Requests</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
         .container {
-            margin-top: 20px;
-            width: 80%;
+            margin-top: 30px;
         }
 
-        .content {
-            height: 600px;
-        }
-
-        .table-container {
-            margin: 0 auto;
-            max-width: 600px;
-        }
-
-        .accept-btn {
-            background-color: green;
-            color: white;
-        }
-
-        .deny-btn {
-            background-color: red;
-            color: white;
-        }
-
-        .accept-btn:hover {
-            background-color: darkgreen;
-        }
-
-        .deny-btn:hover {
-            background-color: darkred;
+        .table th, .table td {
+            vertical-align: middle;
         }
     </style>
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
+
 <div class="container">
-    <h1 class="text-center">Workout Approval</h1>
-    <div class="row content justify-content-center">
-        <div class="col-md-12 table-container">
-            <h2 class="text-center">Requested Workouts</h2>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Person's Name</th>
-                        <th>Workout Name</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Example rows for workout requests -->
-                    <tr>
-                        <td>John Doe</td>
-                        <td>Yoga</td>
-                        <td>
-                            <button class="btn accept-btn btn-sm" onclick="acceptWorkout('John Doe', 'Yoga')">Accept</button>
-                            <button class="btn deny-btn btn-sm" onclick="denyWorkout('John Doe', 'Yoga')">Deny</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Jane Smith</td>
-                        <td>Cardio</td>
-                        <td>
-                            <button class="btn accept-btn btn-sm" onclick="acceptWorkout('Jane Smith', 'Cardio')">Accept</button>
-                            <button class="btn deny-btn btn-sm" onclick="denyWorkout('Jane Smith', 'Cardio')">Deny</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Emily Johnson</td>
-                        <td>Strength Training</td>
-                        <td>
-                            <button class="btn accept-btn btn-sm" onclick="acceptWorkout('Emily Johnson', 'Strength Training')">Accept</button>
-                            <button class="btn deny-btn btn-sm" onclick="denyWorkout('Emily Johnson', 'Strength Training')">Deny</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <h1 class="mb-4">Personal Training Requests</h1>
+    <table class="table table-bordered">
+        <thead class="table-light">
+        <tr>
+            <th>User</th>
+            <th>Coach</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="request : ${trainingRequests}">
+            <td th:text="${request.user.username}">Username</td>
+            <td th:text="${request.coach.name}">Coach Name</td>
+            <td th:text="${request.status}">Pending</td>
+            <td>
+                <form th:action="@{/training-requests/{id}/approve(id=${request.id})}" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                </form>
+                <form th:action="@{/training-requests/{id}/reject(id=${request.id})}" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-    function acceptWorkout(name, workout) {
-        alert('Workout accepted for ' + name + ' (' + workout + ')');
-    }
-
-    function denyWorkout(name, workout) {
-        alert('Workout denied for ' + name + ' (' + workout + ')');
-    }
-</script>
-
 </body>
 </html>
