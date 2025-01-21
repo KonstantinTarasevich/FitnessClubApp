@@ -6,6 +6,6 @@ import my.fitnessapp.model.entity.CoachEntity;
 import java.util.List;
 
 public interface CoachService {
-    void addCoach(CoachDTO coachDTO);
+    boolean addCoach(CoachDTO coachDTO);
     List<CoachEntity> getAllCoaches();
 }
