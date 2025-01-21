@@ -5,8 +5,6 @@ import my.fitnessapp.model.dto.LoginHistoryDTO;
 import my.fitnessapp.model.dto.UserDetailsDTO;
 import my.fitnessapp.model.dto.UserRegisterDTO;
 import my.fitnessapp.model.dto.CoachDTO;
-import my.fitnessapp.service.CoachService;
-import my.fitnessapp.service.ScheduleService;
 import my.fitnessapp.service.impl.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -16,7 +16,7 @@ public class PersonalTrainingController {
     @Autowired
     private PersonalTrainingService personalTrainingService;
 
-    // Заявка за персонална тренировка
+
     @PostMapping("/request")
     public PersonalTrainingRequestEntity requestPersonalTraining(@RequestParam Long userId, @RequestParam Long coachId, @RequestParam LocalDateTime requestedDateTime) {
         return personalTrainingService.requestPersonalTraining(userId, coachId, requestedDateTime);
