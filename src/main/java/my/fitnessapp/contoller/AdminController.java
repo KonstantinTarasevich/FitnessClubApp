@@ -51,9 +51,8 @@ public class AdminController {
         long usersCount = userService.getTotalRegisteredUsers();
         model.addAttribute("usersCount", usersCount);
 
-
-        addPopularTrainingStats(model);
-
+        String mostPopularTraining = scheduleService.getMostPopularTraining();
+        model.addAttribute("mostPopularTraining", mostPopularTraining);
 
         model.addAttribute("allCoaches", coachService.getAllCoaches());
 
@@ -107,11 +106,6 @@ public class AdminController {
         return "view-history";
     }
 
-
-    private void addPopularTrainingStats(Model model) {
-        String mostPopularTraining = scheduleService.getMostPopularTraining();
-        model.addAttribute("mostPopularTraining", mostPopularTraining);
-    }
 
     @GetMapping("/admin-panel/add-coach")
     public String showAddCoachForm() {
