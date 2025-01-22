@@ -48,22 +48,16 @@
         </div>
 
         <div class="row g-4">
-            <div class="col-lg-4 col-md-6" th:each="training : ${trainings}">
+            <div class="col-lg-4 col-md-6" th:each="schedule : ${schedules}">
                 <div class="card workout-card">
                     <div class="card-body">
-                        <h5 class="card-title" th:text="${training.name}">Training Name</h5>
+                        <h5 class="card-title" th:text="${schedule.name}">Workout Name</h5>
                         <p class="card-text">
-                            Coach: <span th:text="${training.coach.name}">Coach Name</span>
+                            Coach: <span th:text="${schedule.coach}">Coach Name</span>
                         </p>
                         <p class="card-text">
-                            Available Spaces: <span id="available-spaces-${training.id}" th:text="${training.availableSpaces}">0</span>
+                            Available Spaces: <span th:text="${schedule.maxParticipants - schedule.currentParticipants}">0</span>
                         </p>
-                        <div class="d-grid mt-3">
-                            <button class="btn btn-primary"
-                                    th:attr="onclick=|confirmBooking('${training.id}', '/book/' + '${training.id}')|">
-                                Book Now
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>

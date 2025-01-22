@@ -15,15 +15,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-
         return httpSecurity
-                .authorizeHttpRequests(
-                        authorizeRequests ->
-                                authorizeRequests
-                                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                        .requestMatchers("/", "/login", "/register", "/schedule").permitAll()
-                                        .requestMatchers("/admin-panel", "/members", "/workoutRequests", "/register-admin", "/add-coach", "/view-history").hasRole("ADMIN")
-                                        .anyRequest().authenticated()
+                .authorizeHttpRequests(authorizeRequests ->
+                        authorizeRequests
+                                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+
+                                .requestMatchers("/", "/login", "/register", "/schedule", "/styles/**", "/images/**", "/js/**").permitAll()
+
+                                .requestMatchers("/admin-panel", "/members", "/workoutRequests", "/register-admin", "/add-coach", "/view-history").hasRole("ADMIN")
+
+                                .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
                         formLogin
@@ -31,14 +32,14 @@ public class SecurityConfig {
                                 .usernameParameter("username")
                                 .passwordParameter("password")
                                 .defaultSuccessUrl("/", true)
-                                .failureForwardUrl("/login-error")
+                                .failureUrl("/login-error")
                 )
-                .logout(
-                        logout ->
-                                logout
-                                        .logoutUrl("/logout")
-                                        .logoutSuccessUrl("/")
-                                        .invalidateHttpSession(true)
+                .logout(logout ->
+                        logout
+                                .logoutUrl("/logout")
+                                .logoutSuccessUrl("/")
+                                .invalidateHttpSession(true)
+                                .deleteCookies("JSESSIONID")
                 )
                 .build();
     }
@@ -50,7 +51,6 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return Pbkdf2PasswordEncoder
-                .defaultsForSpringSecurity_v5_8();
+        return Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
     }
 }
