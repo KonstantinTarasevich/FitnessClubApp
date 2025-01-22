@@ -37,7 +37,7 @@
           </a>
         </li>
         <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-          <a class="nav-link" href="/add-coach" th:classappend="${activeLink == 'add-coach'} ? 'active'">
+          <a class="nav-link" href="/admin-panel/add-coach" th:classappend="${activeLink == 'add-coach'} ? 'active'">
             Add Coach
           </a>
         </li>
