@@ -9,11 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
-@RequestMapping("/training-requests")
 public class PersonalTrainingController {
 
     private final PersonalTrainingServiceImpl personalTrainingService;
@@ -23,22 +21,30 @@ public class PersonalTrainingController {
         this.personalTrainingService = personalTrainingService;
     }
 
-    @GetMapping
+    @GetMapping("/workoutRequests")
     public String getTrainingRequests(Model model) {
         List<PersonalTrainingRequestEntity> requests = personalTrainingService.getAllRequests();
+        if (requests == null) {
+            System.out.println("Warning: No training requests found.");
+            requests = List.of();
+        } else {
+            System.out.println("Fetched " + requests.size() + " training requests");
+        }
         model.addAttribute("trainingRequests", requests);
-        return "workoutRequest";
+        return "workoutRequests";
     }
 
-    @PostMapping("/{id}/approve")
+    @PostMapping("{id}/approve")
     public String approveRequest(@PathVariable Long id) {
+        System.out.println("Approving request ID: " + id);
         personalTrainingService.approveOrRejectRequest(id, RequestStatusEnum.APPROVED);
-        return "redirect:/training-requests";
+        return "redirect:/workoutRequests";
     }
 
-    @PostMapping("/{id}/reject")
+    @PostMapping("{id}/reject")
     public String rejectRequest(@PathVariable Long id) {
+        System.out.println("Rejecting request ID: " + id);
         personalTrainingService.approveOrRejectRequest(id, RequestStatusEnum.REJECTED);
-        return "redirect:/training-requests";
+        return "redirect:/workoutRequests";
     }
 }
