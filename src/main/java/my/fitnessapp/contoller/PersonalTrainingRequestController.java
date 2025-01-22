@@ -1,12 +1,10 @@
 package my.fitnessapp.contoller;
 
-import jakarta.validation.Valid;
 import my.fitnessapp.model.dto.CoachDTO;
 import my.fitnessapp.model.dto.PersonalTrainingRequestDTO;
-import my.fitnessapp.service.CoachService;
-import my.fitnessapp.service.PersonalTrainingRequestService;
 import my.fitnessapp.service.impl.CoachServiceImpl;
 import my.fitnessapp.service.impl.PersonalTrainingRequestServiceImpl;
+import my.fitnessapp.service.impl.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,14 +19,20 @@ public class PersonalTrainingRequestController {
 
     private final PersonalTrainingRequestServiceImpl personalTrainingRequestService;
     private final CoachServiceImpl coachService;
+    private final UserServiceImpl userService;
 
-    public PersonalTrainingRequestController(PersonalTrainingRequestServiceImpl personalTrainingRequestService, CoachServiceImpl coachService) {
+    public PersonalTrainingRequestController(PersonalTrainingRequestServiceImpl personalTrainingRequestService, CoachServiceImpl coachService, UserServiceImpl userService) {
         this.personalTrainingRequestService = personalTrainingRequestService;
         this.coachService = coachService;
+        this.userService = userService;
     }
 
     @GetMapping("/request-workout")
     public String personalTrainingRequest(Model model) {
+        if (!model.containsAttribute("personalTrainingData")) {
+            model.addAttribute("personalTrainingData", new PersonalTrainingRequestDTO());
+        }
+        System.out.println("Model data: " + model.getAttribute("personalTrainingData"));
         if (!model.containsAttribute("personalTrainingData")) {
             model.addAttribute("personalTrainingData", new PersonalTrainingRequestDTO());
         }
@@ -45,22 +49,22 @@ public class PersonalTrainingRequestController {
 
     @PostMapping("/request-workout")
     public String addWorkoutRequest(
-            @Valid PersonalTrainingRequestDTO data,
+            PersonalTrainingRequestDTO data,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes) {
 
-            if (bindingResult.hasErrors()) {
-                redirectAttributes.addFlashAttribute("personalTrainingData", data);
-                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.personalTrainingData", bindingResult);
-                return "personal-workout";
-            }
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("personalTrainingData", data);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.personalTrainingData", bindingResult);
+            return "redirect:/request-workout";
+        }
 
-            boolean success = personalTrainingRequestService.addTrainingRequest(data);
+        boolean success = personalTrainingRequestService.addTrainingRequest(data);
+        if (!success) {
+            redirectAttributes.addFlashAttribute("personalTrainingData", data);
+            return "redirect:/request-workout";
+        }
 
-            if (!success) {
-                redirectAttributes.addFlashAttribute("personalTrainingData", data);
-                return "redirect:/request-workout";
-            }
-            return "redirect:/";
+        return "redirect:/request-workout";
     }
 }

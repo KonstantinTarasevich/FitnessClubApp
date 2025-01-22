@@ -5,6 +5,8 @@ import my.fitnessapp.model.dto.PersonalTrainingRequestDTO;
 import my.fitnessapp.model.entity.CoachEntity;
 import my.fitnessapp.model.entity.PersonalTrainingRequestEntity;
 import my.fitnessapp.model.entity.UserEntity;
+import my.fitnessapp.model.enums.RequestStatusEnum;
+import my.fitnessapp.repository.CoachRepository;
 import my.fitnessapp.repository.PersonalTrainingRequestRepository;
 import my.fitnessapp.service.CoachService;
 import my.fitnessapp.service.PersonalTrainingRequestService;
@@ -21,15 +23,17 @@ public class PersonalTrainingRequestServiceImpl implements PersonalTrainingReque
     private final UserServiceImpl userService;
     private final CoachService coachService;
     private final PersonalTrainingRequestRepository personalTrainingRequestRepository;
+    private final CoachRepository coachRepository;
 
     public PersonalTrainingRequestServiceImpl(ModelMapper modelMapper,
                                               UserServiceImpl userService,
                                               CoachService coachService,
-                                              PersonalTrainingRequestRepository personalTrainingRequestRepository) {
+                                              PersonalTrainingRequestRepository personalTrainingRequestRepository, CoachRepository coachRepository) {
         this.modelMapper = modelMapper;
         this.userService = userService;
         this.coachService = coachService;
         this.personalTrainingRequestRepository = personalTrainingRequestRepository;
+        this.coachRepository = coachRepository;
     }
 
     @Override
@@ -42,7 +46,7 @@ public class PersonalTrainingRequestServiceImpl implements PersonalTrainingReque
                     PersonalTrainingRequestDTO dto = modelMapper.map(request, PersonalTrainingRequestDTO.class);
                     CoachDTO coach = coachService.getCoachById(dto.getCoachId());
                     if (coach != null) {
-                        dto.setCoachName(coach.getName()); // Populate coachName
+                        dto.setCoachName(coach.getName());
                     }
                     return dto;
                 })
@@ -51,18 +55,21 @@ public class PersonalTrainingRequestServiceImpl implements PersonalTrainingReque
 
     @Override
     public boolean addTrainingRequest(PersonalTrainingRequestDTO data) {
-        PersonalTrainingRequestEntity requestEntity = modelMapper.map(data, PersonalTrainingRequestEntity.class);
+        PersonalTrainingRequestEntity requestEntity = new PersonalTrainingRequestEntity();
 
         UserEntity currentUser = userService.getCurrentUser();
-        requestEntity.setUser(currentUser);
+        data.setUserId(currentUser.getId());
 
-        requestEntity.setCoach(
-                coachService.getCoachById(data.getCoachId()) != null
-                        ? modelMapper.map(coachService.getCoachById(data.getCoachId()), CoachEntity.class)
-                        : null
-        );
+        requestEntity.setUser(currentUser);
+        requestEntity.setCoach(coachRepository.findById(data.getCoachId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid coach ID: " + data.getCoachId())));
+        requestEntity.setDescription(data.getDescription());
+        requestEntity.setStatus(RequestStatusEnum.PENDING);
 
         personalTrainingRequestRepository.save(requestEntity);
+
         return true;
     }
+
+
 }
