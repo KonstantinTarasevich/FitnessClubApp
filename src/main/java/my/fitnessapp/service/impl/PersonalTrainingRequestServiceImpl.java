@@ -2,7 +2,6 @@ package my.fitnessapp.service.impl;
 
 import my.fitnessapp.model.dto.CoachDTO;
 import my.fitnessapp.model.dto.PersonalTrainingRequestDTO;
-import my.fitnessapp.model.entity.CoachEntity;
 import my.fitnessapp.model.entity.PersonalTrainingRequestEntity;
 import my.fitnessapp.model.entity.UserEntity;
 import my.fitnessapp.model.enums.RequestStatusEnum;

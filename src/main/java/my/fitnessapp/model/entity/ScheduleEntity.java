@@ -1,7 +1,6 @@
 package my.fitnessapp.model.entity;
 
 import jakarta.persistence.*;
-import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
 

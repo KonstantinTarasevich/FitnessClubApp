@@ -8,13 +8,10 @@ import java.util.List;
 
 public interface PersonalTrainingService {
 
-    // Заявка за персонална тренировка
     PersonalTrainingRequestEntity requestPersonalTraining(Long userId, Long coachId, LocalDateTime requestedDateTime);
 
-    // Одобряване или отхвърляне на заявка
     PersonalTrainingRequestEntity approveOrRejectRequest(Long requestId, RequestStatusEnum status);
 
-    // Връща най-популярните тренировки
     List<PersonalTrainingRequestEntity> getMostPopularTrainings();
 
     List<PersonalTrainingRequestEntity> getAllRequests();

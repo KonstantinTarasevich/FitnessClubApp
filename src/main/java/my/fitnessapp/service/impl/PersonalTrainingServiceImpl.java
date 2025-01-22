@@ -26,7 +26,6 @@ public class PersonalTrainingServiceImpl implements PersonalTrainingService {
     @Autowired
     private CoachRepository coachRepository;
 
-    // Заявка за персонална тренировка
     @Override
     public PersonalTrainingRequestEntity requestPersonalTraining(Long userId, Long coachId, LocalDateTime requestedDateTime) {
         UserEntity user = userRepository.findById(userId).orElse(null);
