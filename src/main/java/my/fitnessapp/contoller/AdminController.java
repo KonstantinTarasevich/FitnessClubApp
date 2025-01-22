@@ -1,10 +1,7 @@
 package my.fitnessapp.contoller;
 
 import jakarta.validation.Valid;
-import my.fitnessapp.model.dto.LoginHistoryDTO;
-import my.fitnessapp.model.dto.UserDetailsDTO;
-import my.fitnessapp.model.dto.UserRegisterDTO;
-import my.fitnessapp.model.dto.CoachDTO;
+import my.fitnessapp.model.dto.*;
 import my.fitnessapp.service.impl.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,6 +52,7 @@ public class AdminController {
         model.addAttribute("mostPopularTraining", mostPopularTraining);
 
         model.addAttribute("allCoaches", coachService.getAllCoaches());
+
 
         return "admin-panel";
     }
@@ -134,4 +132,26 @@ public class AdminController {
         }
         return "redirect:/";
     }
+
+
+    @PostMapping("/create-workout")
+    public String createWorkout(@ModelAttribute ScheduleDTO scheduleDTO) {
+        scheduleService.createSchedule(scheduleDTO);
+        return "redirect:/admin-panel";
+    }
+
+    @PostMapping("/update-workout/{scheduleId}")
+    public String updateWorkout(@PathVariable Long scheduleId, @ModelAttribute ScheduleDTO scheduleDTO) {
+        scheduleService.updateSchedule(scheduleId, scheduleDTO);
+        return "redirect:/admin-panel";
+    }
+
+    @GetMapping("/delete-workout/{scheduleId}")
+    public String deleteWorkout(@PathVariable Long scheduleId) {
+        scheduleService.deleteSchedule(scheduleId);
+        return "redirect:/admin-panel";
+    }
+
+
+
 }

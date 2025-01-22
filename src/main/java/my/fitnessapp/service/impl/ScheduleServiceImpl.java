@@ -6,6 +6,7 @@ import my.fitnessapp.repository.ScheduleRepository;
 import my.fitnessapp.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -22,6 +23,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
+    @Transactional
     public ScheduleDTO createSchedule(ScheduleDTO scheduleDTO) {
         ScheduleEntity schedule = new ScheduleEntity();
         schedule.setName(scheduleDTO.getName());
