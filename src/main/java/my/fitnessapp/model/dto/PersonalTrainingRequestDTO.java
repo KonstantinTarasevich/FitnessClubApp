@@ -11,10 +11,13 @@ public class PersonalTrainingRequestDTO {
     @NotNull(message = "Coach ID is required")
     private Long coachId;
 
+    private String coachName;
+
     private String description;
 
     @NotNull(message = "Status is required")
     private RequestStatusEnum status;
+
 
     public Long getUserId() {
         return userId;
@@ -31,6 +34,15 @@ public class PersonalTrainingRequestDTO {
 
     public PersonalTrainingRequestDTO setCoachId(Long coachId) {
         this.coachId = coachId;
+        return this;
+    }
+
+    public String getCoachName() {
+        return coachName;
+    }
+
+    public PersonalTrainingRequestDTO setCoachName(String coachName) {
+        this.coachName = coachName;
         return this;
     }
 

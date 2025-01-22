@@ -24,31 +24,31 @@
     </style>
 </head>
 <body>
-<div th:replace="fragments/navbar :: navbar"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="form-container">
                 <h3 class="mb-4 text-center">Request a Workout</h3>
-                <form th:action="@{/request-workout}" th:method="post" th:object="${personalTrainingData}">
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" th:field="*{description}" rows="4" placeholder="What do you want to focus on/workout on"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="coach" class="form-label">Select Coach</label>
-                        <select class="form-select" id="coach" th:field="*{coachId}">
-                            <option value="" disabled>Select a coach</option>
-                            <option th:each="coach : ${coaches}"
-                                    th:value="${coach.id}"
-                                    th:text="${coach.name}"></option>
-                        </select>
-                    </div>
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-success">Request Workout</button>
-                    </div>
-                </form>
+<!--                <form th:action="@{/request-workout}" th:method="post" th:object="${personalTrainingData}">-->
+<!--                    <div class="mb-3">-->
+<!--                        <label for="description" class="form-label">Description</label>-->
+<!--                        <textarea class="form-control" id="description" th:field="*{description}" rows="4" placeholder="What do you want to focus on/workout on"></textarea>-->
+<!--                    </div>-->
+<!--                    <div class="mb-3">-->
+<!--                        <label for="coach" class="form-label">Select Coach</label>-->
+<!--                        <select class="form-select" id="coach" th:field="*{coachId}">-->
+<!--                            <option value="" disabled>Select a coach</option>-->
+<!--                            <option th:each="coach : ${coaches}"-->
+<!--                                    th:value="${coach.id}"-->
+<!--                                    th:text="${coach.name}"></option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                    <div class="d-grid">-->
+<!--                        <button type="submit" class="btn btn-success">Request Workout</button>-->
+<!--                    </div>-->
+<!--                </form>-->
             </div>
         </div>
     </div>
@@ -65,7 +65,7 @@
             <tbody>
             <tr th:each="request : ${personalTrainingRequest}">
                 <td th:text="${request.description}"></td>
-                <td th:text="${request.coach.name}"></td>
+                <td th:text="${request.coachName}"></td>
                 <td th:text="${request.status}"></td>
             </tr>
             </tbody>

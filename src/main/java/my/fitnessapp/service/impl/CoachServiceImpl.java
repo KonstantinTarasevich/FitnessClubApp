@@ -23,11 +23,8 @@ public class CoachServiceImpl implements CoachService {
 
     @Override
     public boolean addCoach(CoachDTO data) {
-
         CoachEntity coach = modelMapper.map(data, CoachEntity.class);
-
         coachRepository.save(coach);
-
         return true;
     }
 
@@ -39,11 +36,14 @@ public class CoachServiceImpl implements CoachService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public CoachDTO getCoachById(Long id) {
+        return coachRepository.findById(id)
+                .map(this::mapToDTO)
+                .orElse(null);
+    }
 
     private CoachDTO mapToDTO(CoachEntity coachEntity) {
-        CoachDTO coachDTO = new CoachDTO();
-        coachDTO.setId(coachEntity.getId());
-        coachDTO.setName(coachEntity.getName());
-        return coachDTO;
+        return modelMapper.map(coachEntity, CoachDTO.class);
     }
 }

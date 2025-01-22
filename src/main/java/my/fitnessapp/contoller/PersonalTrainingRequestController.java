@@ -29,12 +29,19 @@ public class PersonalTrainingRequestController {
 
     @GetMapping("/request-workout")
     public String personalTrainingRequest(Model model) {
-        List<PersonalTrainingRequestDTO> personalTrainingRequest = personalTrainingRequestService.getRequestsForCurrentUser();
-        model.addAttribute("personalTrainingRequest", personalTrainingRequest);
+        if (!model.containsAttribute("personalTrainingData")) {
+            model.addAttribute("personalTrainingData", new PersonalTrainingRequestDTO());
+        }
+
+        List<PersonalTrainingRequestDTO> personalTrainingRequests = personalTrainingRequestService.getRequestsForCurrentUser();
+        model.addAttribute("personalTrainingRequest", personalTrainingRequests);
+
         List<CoachDTO> coaches = coachService.getAllCoaches();
         model.addAttribute("coaches", coaches);
+
         return "personal-workout";
     }
+
 
     @PostMapping("/request-workout")
     public String addWorkoutRequest(
