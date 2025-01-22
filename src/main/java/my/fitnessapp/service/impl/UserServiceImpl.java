@@ -74,46 +74,37 @@ public class UserServiceImpl implements UserService{
                 .orElseThrow(() -> new UsernameNotFoundException("User with username " + username + " not found"));
     }
 
-    public boolean updateUser(Long id, UserRegisterDTO data) {
-        try {
-            Optional<UserEntity> existingUserOptional = userRepository.findById(id);
-            if (existingUserOptional.isEmpty()) {
-                System.out.println("User with ID " + id + " does not exist.");
-                return false;
-            }
-
-            UserEntity existingUser = existingUserOptional.get();
-
-            if (!existingUser.getUsername().equals(data.getUsername())) {
-                Optional<UserEntity> userWithNewUsername = userRepository.findByUsername(data.getUsername());
-                if (userWithNewUsername.isPresent()) {
-                    System.out.println("Username already exists: " + data.getUsername());
-                    return false;
-                }
-                existingUser.setUsername(data.getUsername());
-            }
-
-            existingUser.setName(data.getName());
-            existingUser.setEmail(data.getEmail());
-            existingUser.setPhone(data.getPhone());
-
-            if (data.getPassword() != null && !data.getPassword().isEmpty()) {
-                existingUser.setPassword(passwordEncoder.encode(data.getPassword()));
-            }
-
-            userRepository.save(existingUser);
-            System.out.println("User updated successfully with ID: " + existingUser.getId());
-            return true;
-        } catch (Exception e) {
-            System.out.println("Error during user update: " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
-    }
-
 
     public void delete(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public UserEntity findUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User with ID " + id + " not found"));
+    }
+
+    @Override
+    public boolean updateUser(Long id, UserRegisterDTO data) {
+        try {
+            UserEntity user = userRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("User with ID " + id + " not found"));
+
+            user.setName(data.getName());
+            user.setEmail(data.getEmail());
+            user.setPhone(data.getPhone());
+
+            if (data.getPassword() != null && !data.getPassword().isEmpty()) {
+                user.setPassword(passwordEncoder.encode(data.getPassword()));
+            }
+
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error updating user: " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
