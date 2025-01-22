@@ -14,7 +14,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     List<UserEntity> findAllByOrderByUsernameAsc();
 
-
-
     long count();
 }

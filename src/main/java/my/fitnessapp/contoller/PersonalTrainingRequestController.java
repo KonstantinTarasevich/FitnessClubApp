@@ -4,7 +4,6 @@ import my.fitnessapp.model.dto.CoachDTO;
 import my.fitnessapp.model.dto.PersonalTrainingRequestDTO;
 import my.fitnessapp.service.impl.CoachServiceImpl;
 import my.fitnessapp.service.impl.PersonalTrainingRequestServiceImpl;
-import my.fitnessapp.service.impl.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,12 +18,10 @@ public class PersonalTrainingRequestController {
 
     private final PersonalTrainingRequestServiceImpl personalTrainingRequestService;
     private final CoachServiceImpl coachService;
-    private final UserServiceImpl userService;
 
-    public PersonalTrainingRequestController(PersonalTrainingRequestServiceImpl personalTrainingRequestService, CoachServiceImpl coachService, UserServiceImpl userService) {
+    public PersonalTrainingRequestController(PersonalTrainingRequestServiceImpl personalTrainingRequestService, CoachServiceImpl coachService) {
         this.personalTrainingRequestService = personalTrainingRequestService;
         this.coachService = coachService;
-        this.userService = userService;
     }
 
     @GetMapping("/request-workout")
@@ -32,7 +29,6 @@ public class PersonalTrainingRequestController {
         if (!model.containsAttribute("personalTrainingData")) {
             model.addAttribute("personalTrainingData", new PersonalTrainingRequestDTO());
         }
-        System.out.println("Model data: " + model.getAttribute("personalTrainingData"));
         if (!model.containsAttribute("personalTrainingData")) {
             model.addAttribute("personalTrainingData", new PersonalTrainingRequestDTO());
         }
