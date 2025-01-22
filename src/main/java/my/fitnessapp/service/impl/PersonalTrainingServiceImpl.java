@@ -61,4 +61,9 @@ public class PersonalTrainingServiceImpl implements PersonalTrainingService {
 
         return personalTrainingRequestRepository.findAll();
     }
+
+    @Override
+    public List<PersonalTrainingRequestEntity> getAllRequests() {
+        return null;
+    }
 }

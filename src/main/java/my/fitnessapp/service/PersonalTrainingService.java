@@ -16,4 +16,6 @@ public interface PersonalTrainingService {
 
     // Връща най-популярните тренировки
     List<PersonalTrainingRequestEntity> getMostPopularTrainings();
+
+    List<PersonalTrainingRequestEntity> getAllRequests();
 }

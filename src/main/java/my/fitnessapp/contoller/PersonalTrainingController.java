@@ -3,34 +3,42 @@ package my.fitnessapp.contoller;
 import my.fitnessapp.model.entity.PersonalTrainingRequestEntity;
 import my.fitnessapp.model.enums.RequestStatusEnum;
 import my.fitnessapp.service.PersonalTrainingService;
+import my.fitnessapp.service.impl.PersonalTrainingServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/personal-trainings")
+@Controller
+@RequestMapping("/training-requests")
 public class PersonalTrainingController {
 
+    private final PersonalTrainingServiceImpl personalTrainingService;
+
     @Autowired
-    private PersonalTrainingService personalTrainingService;
-
-
-    @PostMapping("/request")
-    public PersonalTrainingRequestEntity requestPersonalTraining(@RequestParam Long userId, @RequestParam Long coachId, @RequestParam LocalDateTime requestedDateTime) {
-        return personalTrainingService.requestPersonalTraining(userId, coachId, requestedDateTime);
+    public PersonalTrainingController(PersonalTrainingServiceImpl personalTrainingService) {
+        this.personalTrainingService = personalTrainingService;
     }
 
-    // Одобряване или отхвърляне на заявка
-    @PostMapping("/approve-reject/{requestId}")
-    public PersonalTrainingRequestEntity approveOrRejectRequest(@PathVariable Long requestId, @RequestParam RequestStatusEnum status) {
-        return personalTrainingService.approveOrRejectRequest(requestId, status);
+    @GetMapping
+    public String getTrainingRequests(Model model) {
+        List<PersonalTrainingRequestEntity> requests = personalTrainingService.getAllRequests();
+        model.addAttribute("trainingRequests", requests);
+        return "workoutRequest";
     }
 
-    // Получаване на най-популярните тренировки
-    @GetMapping("/popular")
-    public List<PersonalTrainingRequestEntity> getMostPopularTrainings() {
-        return personalTrainingService.getMostPopularTrainings();
+    @PostMapping("/{id}/approve")
+    public String approveRequest(@PathVariable Long id) {
+        personalTrainingService.approveOrRejectRequest(id, RequestStatusEnum.APPROVED);
+        return "redirect:/training-requests";
+    }
+
+    @PostMapping("/{id}/reject")
+    public String rejectRequest(@PathVariable Long id) {
+        personalTrainingService.approveOrRejectRequest(id, RequestStatusEnum.REJECTED);
+        return "redirect:/training-requests";
     }
 }
