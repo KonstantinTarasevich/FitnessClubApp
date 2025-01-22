@@ -40,8 +40,8 @@
             <td th:text="${schedule.coach}"></td>
             <td th:text="${schedule.maxParticipants}"></td>
             <td th:text="${schedule.currentParticipants}"></td>
-            <td th:text="${#dates.format(schedule.startTime, 'hh:mm a')}"></td>
-            <td th:text="${#dates.format(schedule.endTime, 'hh:mm a')}"></td>
+            <td th:text="${#temporals.format(schedule.startTime, 'hh:mm a')}"></td>
+            <td th:text="${#temporals.format(schedule.endTime, 'hh:mm a')}"></td>
         </tr>
         </tbody>
     </table>

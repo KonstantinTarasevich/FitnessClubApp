@@ -2,6 +2,7 @@ package my.fitnessapp.contoller;
 
 import my.fitnessapp.model.dto.ScheduleDTO;
 import my.fitnessapp.service.ScheduleService;
+import my.fitnessapp.service.impl.ScheduleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/schedule")
 public class ScheduleController {
 
-    private final ScheduleService scheduleService;
+    private final ScheduleServiceImpl scheduleService;
 
     @Autowired
-    public ScheduleController(ScheduleService scheduleService) {
+    public ScheduleController(ScheduleServiceImpl scheduleService) {
         this.scheduleService = scheduleService;
     }
 

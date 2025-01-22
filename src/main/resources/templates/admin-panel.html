@@ -68,7 +68,7 @@
     <h2 class="mt-5 text-center">Create a New Workout</h2>
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <form th:action="@{/admin-panel/create-workout}" method="post" class="mt-4">
+            <form th:action="@{/create-workout}" method="post" class="mt-4">
                 <div class="mb-3">
                     <label for="workoutName" class="form-label">Workout Name</label>
                     <input type="text" class="form-control" id="workoutName" name="name" placeholder="Enter workout name" required>
@@ -77,7 +77,7 @@
                     <label for="coach" class="form-label">Coach</label>
                     <select class="form-select" id="coach" name="coach" required>
                         <option value="" disabled>Select a coach</option>
-                        <option th:each="coach : ${coaches}" th:value="${coach.id}" th:text="${coach.name}"></option>
+                        <option th:each="coach : ${allCoaches}" th:value="${coach.id}" th:text="${coach.name}"></option>
                     </select>
                 </div>
                 <div class="mb-3">

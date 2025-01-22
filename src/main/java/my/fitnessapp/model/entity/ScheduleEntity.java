@@ -1,6 +1,7 @@
 package my.fitnessapp.model.entity;
 
 import jakarta.persistence.*;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +16,7 @@ public class ScheduleEntity {
     private String name;
     private String coach;
     private int maxParticipants;
+
     private int currentParticipants;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
