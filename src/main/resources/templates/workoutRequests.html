@@ -38,12 +38,12 @@
             <td th:text="${request.coach.name}">Coach Name</td>
             <td th:text="${request.status}">Pending</td>
             <td>
-                <form th:action="@{/training-requests/{id}/approve(id=${request.id})}" method="post" enctype="application/x-www-form-urlencoded" style="display: inline;">
+                <form th:action="@{/workoutRequests/{id}/approve(id=${request.id})}" method="post" enctype="application/x-www-form-urlencoded" style="display: inline;">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <button type="submit" class="btn btn-success btn-sm">Approve</button>
                 </form>
 
-                <form th:action="@{/training-requests/{id}/reject(id=${request.id})}" method="post" enctype="application/x-www-form-urlencoded" style="display: inline;">
+                <form th:action="@{/workoutRequests/{id}/reject(id=${request.id})}" method="post" enctype="application/x-www-form-urlencoded" style="display: inline;">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <button type="submit" class="btn btn-danger btn-sm">Reject</button>
                 </form>
