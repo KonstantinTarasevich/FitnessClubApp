@@ -2,7 +2,6 @@ package my.fitnessapp.contoller;
 
 import my.fitnessapp.model.entity.PersonalTrainingRequestEntity;
 import my.fitnessapp.model.enums.RequestStatusEnum;
-import my.fitnessapp.service.PersonalTrainingService;
 import my.fitnessapp.service.impl.PersonalTrainingServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,14 +33,14 @@ public class PersonalTrainingController {
         return "workoutRequests";
     }
 
-    @PostMapping("{id}/approve")
+    @PostMapping("/workoutRequests/{id}/approve")
     public String approveRequest(@PathVariable Long id) {
         System.out.println("Approving request ID: " + id);
         personalTrainingService.approveOrRejectRequest(id, RequestStatusEnum.APPROVED);
         return "redirect:/workoutRequests";
     }
 
-    @PostMapping("{id}/reject")
+    @PostMapping("/workoutRequests/{id}/reject")
     public String rejectRequest(@PathVariable Long id) {
         System.out.println("Rejecting request ID: " + id);
         personalTrainingService.approveOrRejectRequest(id, RequestStatusEnum.REJECTED);
